@@ -74,14 +74,17 @@
                 <div class="max-w-[480px] p-5 md:p-10">
                     <h2 class="mb-3 text-3xl font-bold">Iniciar sesión</h2>
                     <p class="mb-7">Ingresa tus claves de acceso para iniciar sesión.</p>
-                    <form class="space-y-5" @submit.prevent="window.location='index.html'">
+                    <form action="{{ route('user.login_request') }}" class="space-y-5" method="POST">
+                        @csrf
+                        @method('POST')
                         <div>
                             <label for="email">Email</label>
-                            <input id="email" type="email" class="form-input" placeholder="Igresa tu Email" />
+                            <input id="email" type="email" name="email" value="ulises@tquis.com"
+                                class="form-input" placeholder="Igresa tu Email" />
                         </div>
                         <div>
                             <label for="password">Contraseña</label>
-                            <input id="password" type="password" class="form-input"
+                            <input id="password" type="password" name="password" value="admin" class="form-input"
                                 placeholder="Enter tu contraseña" />
                         </div>
                         <button type="submit" class="btn btn-primary w-full">INICIAR SESIÓN</button>

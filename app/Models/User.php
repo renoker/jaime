@@ -23,6 +23,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function level()
+    {
+        return $this->belongsTo(Level::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -69,8 +69,11 @@
 
         <div class="main-content">
             @include('layouts.header')
+            <div class="animate__animated p-6" :class="[$store.app.animation]">
+                @yield('content')
 
-            @yield('content')
+                @include('layouts.footer')
+            </div>
         </div>
     </div>
 
