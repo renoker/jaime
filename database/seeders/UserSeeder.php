@@ -32,15 +32,5 @@ class UserSeeder extends Seeder
             'phone'         => "5586789485",
             'level_id'      => 2,
         ]);
-
-        User::create([
-            'name'          => "Paciente 1",
-            'email'         => "paciente_1@tquis.com",
-            'password'      => bcrypt("admin"),
-            'age'           => "34",
-            'genre'         => "Hombre",
-            'phone'         => "5586789485",
-            'level_id'      => 3,
-        ]);
     }
 }

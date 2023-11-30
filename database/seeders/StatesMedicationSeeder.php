@@ -2,23 +2,23 @@
 
 namespace Database\Seeders;
 
-use App\Models\Level;
+use App\Models\StatesMedication;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class LevelSeeder extends Seeder
+class StatesMedicationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Level::create([
-            'level' => "SuperAdministrador",
+        StatesMedication::create([
+            'state'  => 'Liquido',
         ]);
 
-        Level::create([
-            'level' => "Director de Acopio",
+        StatesMedication::create([
+            'state'  => 'Solido',
         ]);
     }
 }

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('acopios', function (Blueprint $table) {
+        Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('acopio_id')->references('id')->on('acopios');
+            $table->unsignedBigInteger('acopio_id')->nullable();
+            $table->string('image')->nullable();
             $table->string('name')->nullable();
-            $table->string('address')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('acopios');
+        Schema::dropIfExists('patients');
     }
 };
