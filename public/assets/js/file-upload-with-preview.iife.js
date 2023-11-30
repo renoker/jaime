@@ -891,10 +891,10 @@ var FileUploadWithPreview = (function (exports) {
 
   var MULTI_ITEM_CLEAR_ANIMATION_CLASS = 'multi-item-clear-animation';
 
-  var DEFAULT_CHOOSE_FILE_TEXT = 'Choose file...';
-  var DEFAULT_BROWSE_TEXT = 'Browse';
-  var DEFAULT_FILES_SELECTED_TEXT = 'files selected';
-  var DEFAULT_LABEL_TEXT = 'Upload';
+  var DEFAULT_CHOOSE_FILE_TEXT = 'Agregar Imagen...';
+  var DEFAULT_BROWSE_TEXT = 'Buscar';
+  var DEFAULT_FILES_SELECTED_TEXT = 'Selecciona archivo';
+  var DEFAULT_LABEL_TEXT = 'Imagen';
 
   var generateUniqueId = function generateUniqueId() {
     return Math.random().toString(16).slice(2);
@@ -986,7 +986,7 @@ var FileUploadWithPreview = (function (exports) {
       }
 
       this.el = el;
-      this.el.innerHTML += "\n      <div class=\"label-container\">\n        <label>".concat(this.options.text.label, "</label>\n        <a class=\"clear-button\" href=\"javascript:void(0)\" title=\"Clear Image\">\n          &times;\n        </a>\n      </div>\n      <label class=\"input-container\">\n        <input\n          accept=\"").concat(this.options.accept, "\"\n          aria-label=\"Choose File\"\n          class=\"input-hidden\"\n          id=\"file-upload-with-preview-").concat(uploadId, "\"\n          ").concat(this.options.multiple ? 'multiple' : '', "\n          type=\"file\"\n        />\n        <span class=\"input-visible\"></span>\n      </label>\n      <div class=\"image-preview\"></div>\n    ");
+      this.el.innerHTML += "\n      <div class=\"label-container\">\n        <label>".concat(this.options.text.label, "</label>\n        <a class=\"clear-button\" href=\"javascript:void(0)\" title=\"Clear Image\">\n          &times;\n        </a>\n      </div>\n      <label class=\"input-container\">\n        <input\n          accept=\"").concat(this.options.accept, "\"\n    name=\"image\"\n      aria-label=\"Choose File\"\n          class=\"input-hidden\"\n          id=\"file-upload-with-preview-").concat(uploadId, "\"\n          ").concat(this.options.multiple ? 'multiple' : '', "\n          type=\"file\"\n     />\n        <span class=\"input-visible\"></span>\n      </label>\n      <div class=\"image-preview\"></div>\n    ");
       var inputHidden = this.el.querySelector('.custom-file-container .input-hidden');
       var inputVisible = this.el.querySelector('.custom-file-container .input-visible');
       var imagePreview = this.el.querySelector('.custom-file-container .image-preview');

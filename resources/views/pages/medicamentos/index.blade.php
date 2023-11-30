@@ -37,7 +37,7 @@
     <script>
         var list = @json($list);
         console.log(list);
-        var listFormat = list.map(i => [i.id, i.name, i.email, i.level.level, i.id]);
+        var listFormat = list.map(i => [i.id, i.image, i.name, i.id]);
 
         document.addEventListener('alpine:init', () => {
             // main section
@@ -158,15 +158,11 @@
                         hidden: true,
                     },
                     {
+                        name: 'Imagen',
+                        hidden: true,
+                    },
+                    {
                         name: 'Nombre',
-                        hidden: true,
-                    },
-                    {
-                        name: 'Email',
-                        hidden: true,
-                    },
-                    {
-                        name: 'Nivel',
                         hidden: true,
                     },
                     {
@@ -176,7 +172,7 @@
                 ],
 
                 hideCols: [0],
-                showCols: [0, 1, 2, 3, 4],
+                showCols: [0, 1, 2, 3],
                 showHideColumns(col, value) {
                     if (value) {
                         this.showCols.push(col);
@@ -207,7 +203,14 @@
                                 sort: 'asc',
                             },
                             {
-                                select: 4,
+                                select: 1,
+                                sortable: false,
+                                render: (data) => {
+                                    return `<img src="${data}" style="width: 100px" alt="">`
+                                }
+                            },
+                            {
+                                select: 3,
                                 sortable: false,
                                 render: (data) => {
                                     return `<div class="flex items-center">
@@ -262,12 +265,12 @@
 
         function onForm(id) {
             const row = list.find(f => f.id == id)
-            window.location.href = "usuarios/edit/" + row.id
+            window.location.href = "medicamentos/edit/" + row.id
         }
 
         function onDelete(id) {
             const row = list.find(f => f.id == id)
-            window.location.href = "usuarios/delete/" + row.id
+            window.location.href = "medicamentos/delete/" + row.id
         }
     </script>
 @endsection

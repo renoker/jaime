@@ -18,6 +18,7 @@
     <script defer src="{{ url('assets/js/popper.min.js') }}"></script>
     <script defer src="{{ url('assets/js/tippy-bundle.umd.min.js') }}"></script>
     <script defer src="{{ url('assets/js/sweetalert.min.js') }}"></script>
+    @yield('style')
 </head>
 
 <body x-data="main" class="relative overflow-x-hidden font-nunito text-sm font-normal antialiased"

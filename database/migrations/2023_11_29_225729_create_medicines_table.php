@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('states_medication_id')->references('id')->on('states_medications');
             $table->unsignedBigInteger('states_medication_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
