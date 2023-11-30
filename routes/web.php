@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MedicinesController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,5 +43,15 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/edit/{medicine}',                      [MedicinesController::class, 'edit'])->name('medicine.edit');
         Route::put('/update/{medicine}',                    [MedicinesController::class, 'update'])->name('medicine.update');
         Route::get('/delete/{medicine}',                    [MedicinesController::class, 'destroy'])->name('medicine.destroy');
+    });
+    // PACIENTES
+    Route::prefix('pacientes')->group(function () {
+        Route::get('/',                                     [PatientController::class, 'index'])->name('patient.index');
+        Route::get('/create',                               [PatientController::class, 'create'])->name('patient.create');
+        Route::post('/store',                               [PatientController::class, 'store'])->name('patient.store');
+        Route::get('/edit/{patient}',                       [PatientController::class, 'edit'])->name('patient.edit');
+        Route::put('/update/{patient}',                     [PatientController::class, 'update'])->name('patient.update');
+        Route::get('/delete/{patient}',                     [PatientController::class, 'destroy'])->name('patient.destroy');
+        Route::get('/perfil/{patient}',                     [PatientController::class, 'profile'])->name('patient.profile');
     });
 });

@@ -17,30 +17,35 @@ class PatientSeeder extends Seeder
             'acopio_id' => 1,
             'image'     => 'assets/pacientes/descarga.jpeg',
             'name'      => 'Rodolfo Ramirez',
+            'edad'      => '30'
         ]);
 
         Patient::create([
             'acopio_id' => 1,
             'image'     => 'assets/pacientes/descarga.jpeg',
             'name'      => 'Daniel Rosiles',
+            'edad'      => '30'
         ]);
 
         Patient::create([
             'acopio_id' => 1,
             'image'     => 'assets/pacientes/descarga.jpeg',
             'name'      => 'Gerardo Canceco',
+            'edad'      => '30'
         ]);
 
         Patient::create([
             'acopio_id' => 1,
             'image'     => 'assets/pacientes/descarga.jpeg',
             'name'      => 'Giovanni Aranda',
+            'edad'      => '30'
         ]);
 
         Patient::create([
             'acopio_id' => 1,
             'image'     => 'assets/pacientes/descarga.jpeg',
             'name'      => 'Miguel Granados',
+            'edad'      => '30'
         ]);
     }
 }

@@ -17,6 +17,12 @@ return new class extends Migration
             $table->unsignedBigInteger('acopio_id')->nullable();
             $table->string('image')->nullable();
             $table->string('name')->nullable();
+            $table->string('edad')->nullable();
+            $table->text('direccion')->nullable();
+            $table->string('profecion')->nullable();
+            $table->date('cumpleanios')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telefono')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
