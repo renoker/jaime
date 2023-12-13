@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('acopios', function (Blueprint $table) {
+        Schema::create('facturations', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('compania')->nullable();
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('acopios');
+        Schema::dropIfExists('facturations');
     }
 };

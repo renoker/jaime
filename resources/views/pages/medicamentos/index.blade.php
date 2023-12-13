@@ -37,7 +37,7 @@
     <script>
         var list = @json($list);
         console.log(list);
-        var listFormat = list.map(i => [i.id, i.image, i.name, i.id]);
+        var listFormat = list.map(i => [i.id, i.image, i.descripcion, i.id]);
 
         document.addEventListener('alpine:init', () => {
             // main section

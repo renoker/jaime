@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MedicinesController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -53,5 +54,16 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::put('/update/{patient}',                     [PatientController::class, 'update'])->name('patient.update');
         Route::get('/delete/{patient}',                     [PatientController::class, 'destroy'])->name('patient.destroy');
         Route::get('/perfil/{patient}',                     [PatientController::class, 'profile'])->name('patient.profile');
+    });
+
+    // ORDEN
+    Route::prefix('orden')->group(function () {
+        Route::get('/',                                     [OrderController::class, 'index'])->name('orden.index');
+        Route::get('/create',                               [OrderController::class, 'create'])->name('orden.create');
+        Route::post('/store',                               [OrderController::class, 'store'])->name('orden.store');
+        Route::get('/edit/{patient}',                       [OrderController::class, 'edit'])->name('orden.edit');
+        Route::put('/update/{patient}',                     [OrderController::class, 'update'])->name('orden.update');
+        Route::get('/delete/{patient}',                     [OrderController::class, 'destroy'])->name('orden.destroy');
+        Route::get('/perfil/{patient}',                     [OrderController::class, 'profile'])->name('orden.profile');
     });
 });

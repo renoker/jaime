@@ -14,10 +14,19 @@ return new class extends Migration
         Schema::create('medicines', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable();
-            $table->string('name')->nullable();
-            $table->integer('contenido')->nullable();
-            $table->foreign('states_medication_id')->references('id')->on('states_medications');
-            $table->unsignedBigInteger('states_medication_id')->nullable();
+            $table->string('clave')->nullable();
+            $table->longText('descripcion')->nullable();
+            $table->string('principal_activo')->nullable();
+            $table->string('laboratorio')->nullable();
+            $table->decimal('iva', $precision = 8, $scale = 2)->nullable();
+            $table->double('pecio_maximo', 8, 2)->nullable();
+            $table->integer('descuento')->nullable();
+            $table->double('pecio', 8, 2)->nullable();
+            $table->double('pecio_anterior', 8, 2)->nullable();
+            $table->bigInteger('stock')->nullable();
+            $table->text('comentarios')->nullable();
+            $table->date('caducidad')->nullable();
+            $table->string('codigo_barras')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

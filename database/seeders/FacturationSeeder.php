@@ -2,19 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Acopio;
+use App\Models\Facturation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AcopioSeeder extends Seeder
+class FacturationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Acopio::create([
-            'user_id'   => 2,
+        Facturation::create([
             'compania'      => 'Techies&Beyond',
             'name'          => 'Martires de Uruapan',
             'phone'         => '5586789485',
