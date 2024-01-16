@@ -23,6 +23,10 @@
                         @csrf
                         @method('PUT')
                         <div>
+                            <img src="{{ url($row->image) }}" alt="" width="100px">
+                            <span class="mt-1 inline-block text-[20px] text-white-dark">Imagen actual</span>
+                        </div>
+                        <div>
                             <input id="ctnFile" type="file" name="image"
                                 class="form-input file:py-2 file:px-4 file:border-0 file:font-semibold p-0 file:bg-primary/90 ltr:file:mr-5 rtl:file:ml-5 file:text-white file:hover:bg-primary" />
                             <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa la imagen</span>

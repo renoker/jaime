@@ -75,9 +75,19 @@ class MedicinesController extends Controller
                 return redirect()->route($this->create)->with('statusError', '¡Imagen no valida!');
             }
         }
-        $row->name = $request->name;
-        $row->contenido = $request->contenido;
-        $row->states_medication_id = $request->states_medication_id;
+        $row->clave = $request->clave;
+        $row->descripcion = $request->descripcion;
+        $row->principal_activo = $request->principal_activo;
+        $row->laboratorio = $request->laboratorio;
+        $row->iva = $request->iva;
+        $row->pecio_maximo = $request->pecio_maximo;
+        $row->descuento = $request->descuento;
+        $row->pecio = $request->pecio;
+        $row->pecio_anterior = $request->pecio_anterior;
+        $row->stock = $request->stock;
+        $row->comentarios = $request->comentarios;
+        $row->caducidad = $request->caducidad;
+        $row->codigo_barras = $request->codigo_barras;
 
         $row->save();
 
@@ -125,9 +135,19 @@ class MedicinesController extends Controller
                 return redirect()->route($this->edit, $medicine)->with('statusError', '¡Imagen no valida!');
             }
         }
-        $medicine->name = $request->name;
-        $medicine->contenido = $request->contenido;
-        $medicine->states_medication_id = $request->states_medication_id;
+        $medicine->clave = $request->clave;
+        $medicine->descripcion = $request->descripcion;
+        $medicine->principal_activo = $request->principal_activo;
+        $medicine->laboratorio = $request->laboratorio;
+        $medicine->iva = $request->iva;
+        $medicine->pecio_maximo = $request->pecio_maximo;
+        $medicine->descuento = $request->descuento;
+        $medicine->pecio = $request->pecio;
+        $medicine->pecio_anterior = $request->pecio_anterior;
+        $medicine->stock = $request->stock;
+        $medicine->comentarios = $request->comentarios;
+        $medicine->caducidad = $request->caducidad;
+        $medicine->codigo_barras = $request->codigo_barras;
 
         $medicine->save();
 

@@ -34,8 +34,8 @@
 @section('scripts')
     <script>
         var list = @json($list);
-        console.log(list);
-        var listFormat = list.map(i => [i.id]);
+        var listFormat = list.map(i => [i.id, i.acopio.name, i.fecha, i.total, i.status_orden.status, i.id]);
+        console.log(listFormat);
 
         document.addEventListener('alpine:init', () => {
             // main section
@@ -246,17 +246,7 @@
             //invoice list
             Alpine.data('invoiceList', () => ({
                 selectedRows: [],
-                items: [{
-                        invoice: '081451',
-                        name: 'Laurie Fox',
-                        email: 'lauriefox@company.com',
-                        date: '15 Dec 2020',
-                        amount: '2275.45',
-                        status: 'Paid',
-                        action: 1,
-                    },
-
-                ],
+                items: listFormat,
                 searchText: '',
                 datatable: null,
                 dataArr: [],
@@ -280,20 +270,19 @@
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
                             headings: [
-                                'Invoice',
-                                'Name',
-                                'Email',
-                                'Date',
-                                'Amount',
-                                'Status',
-                                'Actions',
+                                'Folio',
+                                'Acopio',
+                                'Fecha',
+                                'Monto',
+                                'Estatus',
+                                'Acciones',
                             ],
                             data: this.dataArr,
                         },
                         perPage: 10,
                         perPageSelect: [10, 20, 30, 50, 100],
                         columns: [{
-                                select: 1,
+                                select: 0,
                                 render: function(data, cell, row) {
                                     return (
                                         '<a href="apps-invoice-preview.html" class="text-primary underline font-semibold hover:no-underline">#' +
@@ -303,24 +292,22 @@
                                 },
                             },
                             {
-                                select: 2,
+                                select: 1,
                                 render: function(data, cell, row) {
-                                    return `<div class="flex items-center font-semibold"><div class="p-0.5 bg-white-dark/30 rounded-full w-max ltr:mr-2 rtl:ml-2"><img class="h-8 w-8 rounded-full object-cover" src="assets/images/profile-${
-                                    row.dataIndex + 1
-                                }.jpeg" /></div>${data}</div>`;
+                                    return `<div class="flex items-center font-semibold">${data}</div>`;
                                 },
                             },
                             {
-                                select: 5,
+                                select: 3,
                                 render: function(data, cell, row) {
                                     return '<div class="font-semibold">$' + data +
                                         '</div>';
                                 },
                             },
                             {
-                                select: 6,
+                                select: 4,
                                 render: function(data, cell, row) {
-                                    let styleClass = data == 'Paid' ?
+                                    let styleClass = data == 'Entregado' ?
                                         'badge-outline-success' :
                                         'badge-outline-danger';
                                     return '<span class="badge ' + styleClass + '">' +
@@ -328,11 +315,11 @@
                                 },
                             },
                             {
-                                select: 7,
+                                select: 5,
                                 sortable: false,
                                 render: function(data, cell, row) {
                                     return `<div class="flex gap-4 items-center">
-                                    <a href="apps-invoice-edit.html" class="hover:text-info">
+                                    <a href="/orden/edit/${data}" class="hover:text-info">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5">
                                             <path
                                                 opacity="0.5"

@@ -79,7 +79,7 @@
                         @method('POST')
                         <div>
                             <label for="email">Email</label>
-                            <input id="email" type="email" name="email" value="ulises@tquis.com"
+                            <input id="email" type="email" name="email" value="directo@tquis.com"
                                 class="form-input" placeholder="Igresa tu Email" />
                         </div>
                         <div>

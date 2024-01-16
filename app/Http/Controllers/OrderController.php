@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Acopio;
 use App\Models\Medicines;
+use App\Models\OrdenMedina;
 use App\Models\Order;
 use App\Models\Patient;
 use Auth;
@@ -35,7 +36,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Order::all();
+        $order = Order::with('acopio', 'status_orden')->get();
         return view("pages.{$this->folder}.index", [
             'list'  => $order,
             'view'  => $this->view,
@@ -50,9 +51,14 @@ class OrderController extends Controller
     {
         $user = Auth::guard('web')->user();
         $medicinas = Medicines::where('stock', '>', 0)->get();
-        $order = Order::all();
         $acopio = Acopio::where('user_id', $user->id)->first();
+        $order = Order::where('acopio_id', $user->id)->get();
         $pacientes = Patient::where('acopio_id', $acopio->id)->get();
+
+        $res = new Order();
+        $res->acopio_id = $acopio->id;
+        $res->save();
+
         return view("pages.{$this->folder}.create", [
             'view'                  => $this->view,
             'index'                 => $this->index,
@@ -62,6 +68,7 @@ class OrderController extends Controller
             'no_orden'              => $order->count() + 1,
             'acopio'                => $acopio,
             'pacientes'             => $pacientes,
+            'idOrden'               => $res->id,
         ]);
     }
 
@@ -70,8 +77,6 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        $response = Response(['response' => $request->id], 200);
-        return $response;
     }
 
     /**
@@ -87,7 +92,23 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        $user = Auth::guard('web')->user();
+        $medicinas = Medicines::where('stock', '>', 0)->get();
+        $order = Order::where('id', $order->id)->first();
+        $acopio = Acopio::where('user_id', $user->id)->first();
+        $pacientes = Patient::where('acopio_id', $acopio->id)->get();
+
+        return view("pages.{$this->folder}.edit", [
+            'view'                  => $this->view,
+            'index'                 => $this->index,
+            'store'                 => $this->store,
+            'medicinas'             => $medicinas,
+            'user'                  => $user,
+            'no_orden'              => $order->count() + 1,
+            'acopio'                => $acopio,
+            'pacientes'             => $pacientes,
+            'idOrden'               => $order->id,
+        ]);
     }
 
     /**
@@ -95,7 +116,6 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
     }
 
     /**

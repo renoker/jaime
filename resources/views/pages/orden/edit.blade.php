@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Agregar')
+@section('titulo', 'Jaime - Editar')
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ url('assets/css/file-upload-with-preview.min.css') }}" />
 @endsection
@@ -392,39 +392,37 @@
                 },
 
                 init() {
-                    //set default data
-                    var myHeaders = new Headers();
-                    myHeaders.append("Accept", "application/json");
-                    myHeaders.append("X-CSRF-TOKEN", document.querySelector('meta[name="csrf-token"]')
-                        .getAttribute('content'));
 
+                    // URL de la API o recurso que deseas obtener
+                    const url = '/orden_medinas/get_orden_medicinas/' + ordenID;
 
-                    var formdata = new FormData();
-                    formdata.append("order_id", ordenID)
-
-                    var requestOptions = {
-                        method: 'POST',
-                        headers: myHeaders,
-                        body: formdata,
-                        redirect: 'follow'
-                    };
-
-                    fetch("/orden_medinas/store", requestOptions)
-                        .then(response => response.json())
-                        .then(result => {
-
-                            this.items.push({
-                                id: 0,
-                                orden_medina_id: result.OrdenMedina,
-                                patient_id: '',
-                                medicine_id: '',
-                                rate: 0,
-                                cantidad: 1,
-                                amount: 0,
-                            });
-
+                    // Realizar la solicitud GET usando fetch
+                    fetch(url)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Error de red: ${response.status}`);
+                            }
+                            return response.json();
                         })
-                        .catch(error => console.log('error', error));
+                        .then(data => {
+                            var x = 0
+                            data.forEach(e => {
+                                console.log(e);
+                                // this.items.push({
+                                //     id: 0,
+                                //     orden_medina_id: e.id,
+                                //     patient_id: e.patient_id,
+                                //     medicine_id: e.medicine_id,
+                                //     cantidad: e.cantidad,
+                                //     amount: e.pecio,
+                                // });
+                            });
+                        })
+                        .catch(error => {
+                            // Manejar errores de red o errores en el proceso
+                            console.error('Error de fetch:', error);
+                        });
+
 
                 },
 
@@ -508,7 +506,6 @@
                                 orden_medina_id: result.OrdenMedina,
                                 patient_id: '',
                                 medicine_id: '',
-                                rate: 0,
                                 cantidad: 1,
                                 amount: 0,
                             });
