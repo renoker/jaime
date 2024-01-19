@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Acopio;
+use App\Models\AddressSend;
+use App\Models\Facturation;
 use App\Models\Medicines;
 use App\Models\OrdenMedina;
 use App\Models\Order;
@@ -37,10 +39,12 @@ class OrderController extends Controller
     public function index()
     {
         $order = Order::with('acopio', 'status_orden')->get();
+        $user = Auth::guard('web')->user();
         return view("pages.{$this->folder}.index", [
-            'list'  => $order,
-            'view'  => $this->view,
-            'create'  => $this->create,
+            'list'      => $order,
+            'view'      => $this->view,
+            'create'    => $this->create,
+            'user'      => $user
         ]);
     }
 
@@ -54,6 +58,8 @@ class OrderController extends Controller
         $acopio = Acopio::where('user_id', $user->id)->first();
         $order = Order::where('acopio_id', $user->id)->get();
         $pacientes = Patient::where('acopio_id', $acopio->id)->get();
+        $facturacion = Facturation::where('acopio_id', $acopio->id)->first();
+        $direccion_envio = AddressSend::where('acopio_id', $acopio->id)->first();
 
         $res = new Order();
         $res->acopio_id = $acopio->id;
@@ -69,6 +75,8 @@ class OrderController extends Controller
             'acopio'                => $acopio,
             'pacientes'             => $pacientes,
             'idOrden'               => $res->id,
+            'facturacion'           => $facturacion,
+            'direccion_envio'       => $direccion_envio,
         ]);
     }
 
@@ -77,6 +85,14 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
+        $row = Order::where('id', $request->order_id)->first();
+        $row->notas = $request->notas;
+        $row->fecha = $request->fecha;
+
+        $row->save();
+
+        $response = Response(['orden' => $row], 200);
+        return $response;
     }
 
     /**
@@ -84,7 +100,6 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
     }
 
     /**
@@ -94,9 +109,10 @@ class OrderController extends Controller
     {
         $user = Auth::guard('web')->user();
         $medicinas = Medicines::where('stock', '>', 0)->get();
-        $order = Order::where('id', $order->id)->first();
         $acopio = Acopio::where('user_id', $user->id)->first();
         $pacientes = Patient::where('acopio_id', $acopio->id)->get();
+        $facturacion = Facturation::where('acopio_id', $acopio->id)->first();
+        $direccion_envio = AddressSend::where('acopio_id', $acopio->id)->first();
 
         return view("pages.{$this->folder}.edit", [
             'view'                  => $this->view,
@@ -108,6 +124,8 @@ class OrderController extends Controller
             'acopio'                => $acopio,
             'pacientes'             => $pacientes,
             'idOrden'               => $order->id,
+            'facturacion'           => $facturacion,
+            'direccion_envio'       => $direccion_envio,
         ]);
     }
 

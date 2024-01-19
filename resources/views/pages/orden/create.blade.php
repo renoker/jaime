@@ -42,31 +42,31 @@
                                     <label for="reciever-compania" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Compañía:</label>
                                     <input id="reciever-compania" type="text" name="reciever-compania"
                                         class="form-input flex-1" x-model="params.to.compania"
-                                        placeholder="Ingresa la compañia" />
+                                        placeholder="Ingresa la compañia" readonly />
                                 </div>
                                 <div class="mt-4 flex items-center">
                                     <label for="reciever-name" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Nombre:</label>
                                     <input id="reciever-name" type="text" name="reciever-name" class="form-input flex-1"
-                                        x-model="params.to.name" placeholder="Ingresa el nombre" />
+                                        x-model="params.to.name" placeholder="Ingresa el nombre" readonly />
                                 </div>
                                 <div class="mt-4 flex items-center">
                                     <label for="reciever-number" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Teléfono:</label>
                                     <input id="reciever-number" type="text" name="reciever-number"
                                         class="form-input flex-1" x-model="params.to.phone"
-                                        placeholder="Ingresa número celular" />
+                                        placeholder="Ingresa número celular" readonly />
                                 </div>
                                 <div class="mt-4 flex items-center">
                                     <label for="reciever-address" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Dirección:</label>
                                     <input id="reciever-address" type="text" name="reciever-address"
                                         class="form-input flex-1" x-model="params.to.address"
-                                        placeholder="Ingresa Dirección" />
+                                        placeholder="Ingresa Dirección" readonly />
                                 </div>
                                 <div class="mt-4 flex items-center">
                                     <label for="reciever-address-two" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Dirección
                                         2:</label>
                                     <input id="reciever-address-two" type="text" name="reciever-address-two"
                                         class="form-input flex-1" x-model="params.to.address"
-                                        placeholder="Ingresa Dirección 2" />
+                                        placeholder="Ingresa Dirección 2" readonly />
                                 </div>
                             </div>
                             <div class="w-full lg:w-1/2">
@@ -75,31 +75,31 @@
                                     <label for="reciever-compania" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Compañía:</label>
                                     <input id="reciever-compania" type="text" name="reciever-compania"
                                         class="form-input flex-1" x-model="params.bankInfo.compania"
-                                        placeholder="Ingresa la compañia" />
+                                        placeholder="Ingresa la compañia" readonly />
                                 </div>
                                 <div class="mt-4 flex items-center">
                                     <label for="reciever-name" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Nombre:</label>
                                     <input id="reciever-name" type="text" name="reciever-name" class="form-input flex-1"
-                                        x-model="params.bankInfo.name" placeholder="Ingresa el nombre" />
+                                        x-model="params.bankInfo.name" placeholder="Ingresa el nombre" readonly />
                                 </div>
                                 <div class="mt-4 flex items-center">
                                     <label for="reciever-number" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Teléfono:</label>
                                     <input id="reciever-number" type="text" name="reciever-number"
                                         class="form-input flex-1" x-model="params.bankInfo.phone"
-                                        placeholder="Ingresa número celular" />
+                                        placeholder="Ingresa número celular" readonly />
                                 </div>
                                 <div class="mt-4 flex items-center">
                                     <label for="reciever-address" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Dirección:</label>
                                     <input id="reciever-address" type="text" name="reciever-address"
                                         class="form-input flex-1" x-model="params.bankInfo.address"
-                                        placeholder="Ingresa Dirección" />
+                                        placeholder="Ingresa Dirección" readonly />
                                 </div>
                                 <div class="mt-4 flex items-center">
                                     <label for="reciever-address-two" class="mb-0 w-1/3 ltr:mr-2 rtl:ml-2">Dirección
                                         2:</label>
                                     <input id="reciever-address-two" type="text" name="reciever-address-two"
                                         class="form-input flex-1" x-model="params.bankInfo.address"
-                                        placeholder="Ingresa Dirección 2" />
+                                        placeholder="Ingresa Dirección 2" readonly />
                                 </div>
                             </div>
                         </div>
@@ -255,6 +255,8 @@
     <script>
         var medicinas = @json($medicinas);
         var acopio = @json($acopio);
+        var facturacion = @json($facturacion);
+        var direccion_envio = @json($direccion_envio);
         var user = @json($user);
         var no_orden = @json($no_orden);
         var ordenID = document.getElementById('ordenID').value
@@ -265,7 +267,7 @@
         var dia = ('0' + fechaActual.getDate()).slice(-2);
         var fechaFormateada = año + '-' + mes + '-' + dia;
 
-        console.log(fechaFormateada);
+        console.log(facturacion);
 
         document.addEventListener('alpine:init', () => {
             // main section
@@ -374,19 +376,19 @@
                 params: {
                     invoiceNo: no_orden,
                     to: {
-                        compania: acopio.compania,
-                        name: acopio.name,
-                        phone: acopio.phone,
-                        address: acopio.address,
-                        address_two: acopio.address_two,
+                        compania: facturacion.compania,
+                        name: facturacion.name,
+                        phone: facturacion.phone,
+                        address: facturacion.address,
+                        address_two: facturacion.address_two,
                     },
                     fecha: fechaFormateada,
                     bankInfo: {
-                        compania: acopio.compania,
-                        name: acopio.name,
-                        phone: acopio.phone,
-                        address: acopio.address,
-                        address_two: acopio.address_two,
+                        compania: direccion_envio.compania,
+                        name: direccion_envio.name,
+                        phone: direccion_envio.phone,
+                        address: direccion_envio.address,
+                        address_two: direccion_envio.address_two,
                     },
                     notes: '',
                 },
@@ -556,6 +558,73 @@
                 },
 
                 saveItems() {
+                    swal.fire({
+                        title: '¿Quieres continuar agregando medicamentos o solo guardar y salir?',
+                        text: '',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
+                        cancelButtonClass: 'btn btn-danger w-xs mt-2',
+                        confirmButtonText: "Si, guardar y continuar",
+                        cancelButtonText: 'Guardar y salir',
+                        buttonsStyling: true,
+                        showCloseButton: true
+                    }).then(response => {
+                        if (response.value) {
+
+                            var myHeaders = new Headers();
+                            myHeaders.append("Accept", "application/json");
+                            myHeaders.append("X-CSRF-TOKEN", document.querySelector(
+                                    'meta[name="csrf-token"]')
+                                .getAttribute('content'));
+
+
+                            var formdata = new FormData();
+                            formdata.append("order_id", ordenID)
+                            formdata.append("notas", this.params.notes)
+                            formdata.append("fecha", this.params.fecha)
+
+                            var requestOptions = {
+                                method: 'POST',
+                                headers: myHeaders,
+                                body: formdata,
+                                redirect: 'follow'
+                            };
+
+                            fetch("/orden/store", requestOptions)
+                                .then(response => response.json())
+                                .then(result => {
+                                    console.log(result);
+                                })
+                                .catch(error => console.log('error', error));
+                        } else {
+                            var myHeaders = new Headers();
+                            myHeaders.append("Accept", "application/json");
+                            myHeaders.append("X-CSRF-TOKEN", document.querySelector(
+                                    'meta[name="csrf-token"]')
+                                .getAttribute('content'));
+
+
+                            var formdata = new FormData();
+                            formdata.append("order_id", ordenID)
+                            formdata.append("notas", this.params.notes)
+                            formdata.append("fecha", this.params.fecha)
+
+                            var requestOptions = {
+                                method: 'POST',
+                                headers: myHeaders,
+                                body: formdata,
+                                redirect: 'follow'
+                            };
+
+                            fetch("/orden/store", requestOptions)
+                                .then(response => response.json())
+                                .then(result => {
+                                    window.location.href = '/orden'
+                                })
+                                .catch(error => console.log('error', error));
+                        }
+                    })
 
                 },
             }));

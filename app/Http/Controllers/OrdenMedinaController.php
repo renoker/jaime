@@ -87,7 +87,12 @@ class OrdenMedinaController extends Controller
     {
         $medicinas = OrdenMedina::where('order_id', $order->id)->get();
 
-        $response = Response(['list' => $medicinas], 200);
+        $total = OrdenMedina::where('order_id', $order->id)->sum('pecio');
+
+        $iva = $total * 0.16;
+        $subtotal = $total - $iva;
+
+        $response = Response(['list' => $medicinas, 'total' => number_format($total, 2, '.', ','), 'iva' => number_format($iva, 2, '.', ','), 'subtotal' => number_format($subtotal, 2, '.', ',')], 200);
         return $response;
     }
 }

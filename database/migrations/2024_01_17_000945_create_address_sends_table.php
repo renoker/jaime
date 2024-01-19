@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('address_sends', function (Blueprint $table) {
             $table->id();
             $table->foreign('acopio_id')->references('id')->on('acopios');
             $table->unsignedBigInteger('acopio_id')->nullable();
-            $table->foreign('status_orden_id')->references('id')->on('status_ordens');
-            $table->unsignedBigInteger('status_orden_id')->default(1);
-            $table->text('notas')->nullable();
-            $table->date('fecha')->nullable();
+            $table->string('compania')->nullable();
+            $table->string('name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('address_two')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('address_sends');
     }
 };

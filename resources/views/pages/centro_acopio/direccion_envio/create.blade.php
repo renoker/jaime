@@ -8,7 +8,7 @@
     <div x-data="form">
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
-                <a href="{{ route($index) }}" class="text-primary hover:underline">{{ $view }}</a>
+                <a href="{{ route($index, $acopio->id) }}" class="text-primary hover:underline">{{ $view }}</a>
             </li>
             <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
                 <span>Crear</span>
@@ -22,17 +22,7 @@
                         @csrf
                         @method('POST')
                         <div>
-                            <select class="form-select text-white-dark" name="user_id">
-                                <option value="0">Selecciona el direcctor de este centro de acopio</option>
-                                @foreach ($directores as $item)
-                                    <option value="{{ $item->id }}">
-                                        {{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona el nivel de acceso del
-                                este usuario</span>
-                        </div>
-                        <div>
+                            <input type="hidden" name="acopio_id" value="{{ $acopio->id }}">
                             <input type="text" placeholder="Compañia" name="compania" class="form-input" />
                             <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa la compañia</span>
                         </div>
@@ -45,11 +35,11 @@
                             <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa el teléfono</span>
                         </div>
                         <div>
-                            <input type="text" placeholder="Dirección 1" name="address" class="form-input" />
+                            <input type="text" placeholder="Teléfono" name="address" class="form-input" />
                             <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa la dirección 1</span>
                         </div>
                         <div>
-                            <input type="text" placeholder="Dirección 2" name="address_two" class="form-input" />
+                            <input type="text" placeholder="Teléfono" name="address_two" class="form-input" />
                             <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa la dirección 2</span>
                         </div>
                         <button type="submit" class="btn btn-primary !mt-6">Agregar</button>

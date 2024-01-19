@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreFacturationRequest;
-use App\Http\Requests\UpdateFacturationRequest;
+use App\Http\Requests\StoreAddressSendRequest;
+use App\Http\Requests\UpdateAddressSendRequest;
 use App\Models\Acopio;
-use App\Models\Facturation;
-use Illuminate\Support\Facades\Auth;
+use App\Models\AddressSend;
 
-class FacturationController extends Controller
+class AddressSendController extends Controller
 {
     private $folder;
     private $view;
@@ -20,13 +19,13 @@ class FacturationController extends Controller
 
     function __construct()
     {
-        $this->folder = 'centro_acopio.facturacion';
-        $this->view = 'Facturación';
-        $this->index = 'facturacion.index';
-        $this->create = 'facturacion.create';
-        $this->store = 'facturacion.store';
-        $this->update = 'facturacion.update';
-        $this->edit = 'facturacion.edit';
+        $this->folder = 'centro_acopio.direccion_envio';
+        $this->view = 'Dirección de envío';
+        $this->index = 'address_send.index';
+        $this->create = 'address_send.create';
+        $this->store = 'address_send.store';
+        $this->update = 'address_send.update';
+        $this->edit = 'address_send.edit';
     }
 
     /**
@@ -34,10 +33,10 @@ class FacturationController extends Controller
      */
     public function index(Acopio $acopio)
     {
-        $facturacion = Facturation::with('acopio')->where('acopio_id', $acopio->id)->get();
-        // dd($facturacion);
+        $direccion_envio = AddressSend::with('acopio')->where('acopio_id', $acopio->id)->get();
+        // dd($direccion_envio);
         return view("pages.{$this->folder}.index", [
-            'list'      => $facturacion,
+            'list'      => $direccion_envio,
             'view'      => $this->view,
             'create'    => $this->create,
             'acopio'    => $acopio
@@ -60,9 +59,9 @@ class FacturationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFacturationRequest $request)
+    public function store(StoreAddressSendRequest $request)
     {
-        $row = new Facturation();
+        $row = new AddressSend();
 
         $row->acopio_id = $request->acopio_id;
         $row->compania = $request->compania;
@@ -79,7 +78,7 @@ class FacturationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Facturation $facturation)
+    public function show(AddressSend $address_send)
     {
         //
     }
@@ -87,10 +86,10 @@ class FacturationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Facturation $facturacion)
+    public function edit(AddressSend $address_send)
     {
         return view("pages.{$this->folder}.edit", [
-            'row'               => $facturacion,
+            'row'               => $address_send,
             'view'              => $this->view,
             'index'             => $this->index,
             'update'            => $this->update,
@@ -100,26 +99,26 @@ class FacturationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFacturationRequest $request, Facturation $facturacion)
+    public function update(UpdateAddressSendRequest $request, AddressSend $address_send)
     {
 
-        $facturacion->compania = $request->compania;
-        $facturacion->name = $request->name;
-        $facturacion->phone = $request->phone;
-        $facturacion->address = $request->address;
-        $facturacion->address_two = $request->address_two;
+        $address_send->compania = $request->compania;
+        $address_send->name = $request->name;
+        $address_send->phone = $request->phone;
+        $address_send->address = $request->address;
+        $address_send->address_two = $request->address_two;
 
-        $facturacion->save();
+        $address_send->save();
 
-        return redirect()->route($this->index, $facturacion->acopio_id)->with('statusAlta', '¡Fila actualizada de manera exitosa!');
+        return redirect()->route($this->index, $address_send->acopio_id)->with('statusAlta', '¡Fila actualizada de manera exitosa!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Facturation $facturacion)
+    public function destroy(AddressSend $address_send)
     {
-        $facturacion->delete();
-        return redirect()->route($this->index, $facturacion->acopio_id)->with('statusDelete', '¡Fila eliminada de manera exitosa!');
+        $address_send->delete();
+        return redirect()->route($this->index, $address_send->acopio_id)->with('statusDelete', '¡Fila eliminada de manera exitosa!');
     }
 }

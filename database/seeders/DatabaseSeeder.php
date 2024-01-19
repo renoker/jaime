@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             PatientSeeder::class,
             MedicinesSeeder::class,
             StatusOrdenSeeder::class,
+            FacturationSeeder::class,
+            AddressSendSeeder::class,
         ]);
     }
 }

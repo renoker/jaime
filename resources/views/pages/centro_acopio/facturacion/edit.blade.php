@@ -8,7 +8,7 @@
     <div x-data="form">
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
-                <a href="{{ route($index) }}" class="text-primary hover:underline">{{ $view }}</a>
+                <a href="{{ route($index, $row->acopio_id) }}" class="text-primary hover:underline">{{ $view }}</a>
             </li>
             <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
                 <span>Editar</span>
@@ -23,20 +23,9 @@
                         @csrf
                         @method('PUT')
                         <div>
-                            <select class="form-select text-white-dark" name="user_id">
-                                <option value="0">Selecciona el direcctor de este centro de acopio</option>
-                                @foreach ($directores as $item)
-                                    <option value="{{ $item->id }}" @if ($item->id == $row->user_id) selected @endif>
-                                        {{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona el nivel de acceso del
-                                este usuario</span>
-                        </div>
-                        <div>
                             <input type="text" placeholder="Compañia" name="compania" value="{{ $row->compania }}"
                                 class="form-input" />
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa la compañia</span>
+                            <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa el nombre</span>
                         </div>
                         <div>
                             <input type="text" placeholder="Nombre" name="name" value="{{ $row->name }}"

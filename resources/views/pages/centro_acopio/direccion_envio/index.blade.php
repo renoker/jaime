@@ -2,19 +2,21 @@
 @section('titulo', 'Jaime - Home')
 
 @section('content')
-    <div class="mb-5">
-        <a href="{{ route($create) }}">
-            <button type="button" class="btn btn-primary flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                    class="h-5 w-5 ltr:mr-3 rtl:ml-3">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                Agregar
-            </button>
-        </a>
-    </div>
+    @empty($list[0]->id)
+        <div class="mb-5">
+            <a href="{{ route($create, $acopio->id) }}">
+                <button type="button" class="btn btn-primary flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="h-5 w-5 ltr:mr-3 rtl:ml-3">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Agregar
+                </button>
+            </a>
+        </div>
+    @endempty
     <!-- start main content section -->
     <div x-data="miscellaneous">
         <div class="space-y-6">
@@ -36,8 +38,10 @@
 
     <script>
         var list = @json($list);
-        var listFormat = list.map(i => [i.id, i.compania, i.name, i.id, i.id, i.id]);
-        console.log(listFormat);
+        var listFormat = list.map(i => [i.id, i.acopio.compania, i.compania, i.name, i.phone, i.address, i.address_two, i
+            .id
+        ]);
+        console.log(list);
 
         document.addEventListener('alpine:init', () => {
             // main section
@@ -158,6 +162,10 @@
                         hidden: true,
                     },
                     {
+                        name: 'Centro de acopio',
+                        hidden: true,
+                    },
+                    {
                         name: 'Compañia',
                         hidden: true,
                     },
@@ -166,11 +174,15 @@
                         hidden: true,
                     },
                     {
-                        name: 'Facturación',
+                        name: 'Teléfono',
                         hidden: true,
                     },
                     {
                         name: 'Dirección',
+                        hidden: true,
+                    },
+                    {
+                        name: 'Dirección 2',
                         hidden: true,
                     },
                     {
@@ -210,32 +222,9 @@
                                 select: 0,
                                 sort: 'asc',
                             },
+
                             {
-                                select: 1,
-                                sort: 'asc',
-                            },
-                            {
-                                select: 2,
-                                sort: 'asc',
-                            },
-                            {
-                                select: 3,
-                                render: function(data, cell, row) {
-                                    return (
-                                        `<a href="{{ url('/acopio/facturacion/h/${data}') }}" class="text-primary underline font-semibold hover:no-underline">Ver Facturación</a>`
-                                    );
-                                },
-                            },
-                            {
-                                select: 4,
-                                render: function(data, cell, row) {
-                                    return (
-                                        `<a href="{{ url('/acopio/direccion_envio/h/${data}') }}" class="text-primary underline font-semibold hover:no-underline">Ver Dirección de envío</a>`
-                                    );
-                                },
-                            },
-                            {
-                                select: 5,
+                                select: 7,
                                 sortable: false,
                                 render: (data) => {
                                     return `<div class="flex items-center">
@@ -288,14 +277,15 @@
             }));
         });
 
+
         function onForm(id) {
             const row = list.find(f => f.id == id)
-            window.location.href = "acopio/edit/" + row.id
+            window.location.href = "/acopio/facturacion/edit/" + row.id
         }
 
         function onDelete(id) {
             const row = list.find(f => f.id == id)
-            window.location.href = "acopio/delete/" + row.id
+            window.location.href = "/acopio/facturacion/delete/" + row.id
         }
     </script>
 @endsection

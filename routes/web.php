@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AcopioController;
+use App\Http\Controllers\AddressSendController;
+use App\Http\Controllers\FacturationController;
 use App\Http\Controllers\MedicinesController;
 use App\Http\Controllers\OrdenMedinaController;
 use App\Http\Controllers\OrderController;
@@ -46,6 +48,24 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/edit/{acopio}',                        [AcopioController::class, 'edit'])->name('acopio.edit');
         Route::put('/update/{acopio}',                      [AcopioController::class, 'update'])->name('acopio.update');
         Route::get('/delete/{acopio}',                      [AcopioController::class, 'destroy'])->name('acopio.destroy');
+        // Facturacion
+        Route::prefix('facturacion')->group(function () {
+            Route::get('/h/{acopio}',                               [FacturationController::class, 'index'])->name('facturacion.index');
+            Route::get('/create/{acopio}',                          [FacturationController::class, 'create'])->name('facturacion.create');
+            Route::post('/store',                                   [FacturationController::class, 'store'])->name('facturacion.store');
+            Route::get('/edit/{facturacion}',                       [FacturationController::class, 'edit'])->name('facturacion.edit');
+            Route::put('/update/{facturacion}',                     [FacturationController::class, 'update'])->name('facturacion.update');
+            Route::get('/delete/{facturacion}',                     [FacturationController::class, 'destroy'])->name('facturacion.destroy');
+        });
+        // Dirección
+        Route::prefix('direccion_envio')->group(function () {
+            Route::get('/h/{acopio}',                               [AddressSendController::class, 'index'])->name('address_send.index');
+            Route::get('/create/{acopio}',                          [AddressSendController::class, 'create'])->name('address_send.create');
+            Route::post('/store',                                   [AddressSendController::class, 'store'])->name('address_send.store');
+            Route::get('/edit/{address_send}',                      [AddressSendController::class, 'edit'])->name('address_send.edit');
+            Route::put('/update/{address_send}',                    [AddressSendController::class, 'update'])->name('address_send.update');
+            Route::get('/delete/{address_send}',                    [AddressSendController::class, 'destroy'])->name('address_send.destroy');
+        });
     });
     // MEDICAMENTOS
     Route::prefix('medicamentos')->group(function () {

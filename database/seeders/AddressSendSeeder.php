@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Facturation;
+use App\Models\AddressSend;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class FacturationSeeder extends Seeder
+class AddressSendSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Facturation::create([
+        AddressSend::create([
             'acopio_id'     => 1,
             'compania'      => 'Techies&Beyond',
             'name'          => 'Martires de Uruapan',

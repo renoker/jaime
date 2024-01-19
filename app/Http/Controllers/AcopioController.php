@@ -54,10 +54,12 @@ class AcopioController extends Controller
      */
     public function create()
     {
+        $user = User::where('level_id', 2)->get();
         return view("pages.{$this->folder}.create", [
             'view'                  => $this->view,
             'index'                 => $this->index,
             'store'                 => $this->store,
+            'directores'            => $user
         ]);
     }
 

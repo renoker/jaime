@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('facturations', function (Blueprint $table) {
             $table->id();
+            $table->foreign('acopio_id')->references('id')->on('acopios');
+            $table->unsignedBigInteger('acopio_id')->nullable();
             $table->string('compania')->nullable();
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
