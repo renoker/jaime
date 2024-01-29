@@ -14,4 +14,9 @@ class Acopio extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function facturation()
+    {
+        return $this->hasOne(Facturation::class);
+    }
 }

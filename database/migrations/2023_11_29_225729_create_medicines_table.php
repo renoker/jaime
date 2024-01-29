@@ -24,6 +24,7 @@ return new class extends Migration
             $table->double('pecio', 8, 2)->nullable();
             $table->double('pecio_anterior', 8, 2)->nullable();
             $table->bigInteger('stock')->nullable();
+            $table->bigInteger('contenido')->nullable();
             $table->text('comentarios')->nullable();
             $table->date('caducidad')->nullable();
             $table->string('codigo_barras')->nullable();

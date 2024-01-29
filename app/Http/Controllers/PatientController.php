@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Models\Acopio;
+use App\Models\MedicinesPatient;
 use App\Models\Patient;
 
 class PatientController extends Controller
@@ -148,11 +149,13 @@ class PatientController extends Controller
      */
     public function profile(Patient $patient)
     {
+        $medicamentos = MedicinesPatient::where('patient_id', $patient->id)->get();
         return view("pages.{$this->folder}.perfil", [
             'view'              => $this->view,
             'index'             => $this->index,
             'update'            => $this->update,
             'row'               => $patient,
+            'medicamentos'      => $medicamentos,
         ]);
     }
 

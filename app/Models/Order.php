@@ -10,7 +10,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['fecha', 'total'];
+    protected $appends = ['fecha_sistema', 'total', 'fecha_solicitud'];
 
     public function acopio()
     {
@@ -22,7 +22,15 @@ class Order extends Model
         return $this->belongsTo(StatusOrden::class);
     }
 
-    public function getFechaAttribute()
+    public function getFechaSolicitudAttribute()
+    {
+        $meses = array("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre");
+        $fecha = \Carbon\Carbon::parse($this->fecha);
+        $mes = $meses[($fecha->format('n')) - 1];
+        return $fecha->format('d') . ' de ' . $mes . ' del ' . $fecha->format('Y');
+    }
+
+    public function getFechaSistemaAttribute()
     {
         $meses = array("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre");
         $fecha = \Carbon\Carbon::parse($this->cumpleanios);

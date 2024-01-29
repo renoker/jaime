@@ -25,6 +25,7 @@ class MedicinesSeeder extends Seeder
             'pecio'             => 933.81,
             'pecio_anterior'    => 280.81,
             'stock'             => 26,
+            'contenido'         => 30,
             'comentarios'       => 'Me dicamento en buen estado',
             'caducidad'         => '2023-11-30',
             'codigo_barras'     => '7501285600334'
@@ -42,6 +43,7 @@ class MedicinesSeeder extends Seeder
             'pecio'             => 813.81,
             'pecio_anterior'    => 280.81,
             'stock'             => 20,
+            'contenido'         => 30,
             'comentarios'       => 'Me dicamento en buen estado',
             'caducidad'         => '2023-11-30',
             'codigo_barras'     => '7501285600334'
@@ -59,6 +61,7 @@ class MedicinesSeeder extends Seeder
             'pecio'             => 613.81,
             'pecio_anterior'    => 280.81,
             'stock'             => 5,
+            'contenido'         => 1,
             'comentarios'       => 'Me dicamento en buen estado',
             'caducidad'         => '2023-11-30',
             'codigo_barras'     => '7501285600334'
@@ -76,6 +79,7 @@ class MedicinesSeeder extends Seeder
             'pecio'             => 313.81,
             'pecio_anterior'    => 280.81,
             'stock'             => 10,
+            'contenido'         => 10,
             'comentarios'       => 'Me dicamento en buen estado',
             'caducidad'         => '2023-11-30',
             'codigo_barras'     => '7501285600334'
@@ -93,6 +97,7 @@ class MedicinesSeeder extends Seeder
             'pecio'             => 543.81,
             'pecio_anterior'    => 280.81,
             'stock'             => 120,
+            'contenido'         => 20,
             'comentarios'       => 'Me dicamento en buen estado',
             'caducidad'         => '2023-11-30',
             'codigo_barras'     => '7501285600334'
@@ -110,6 +115,7 @@ class MedicinesSeeder extends Seeder
             'pecio'             => 13.81,
             'pecio_anterior'    => 280.81,
             'stock'             => 200,
+            'contenido'         => 10,
             'comentarios'       => 'Me dicamento en buen estado',
             'caducidad'         => '2023-11-30',
             'codigo_barras'     => '7501285600334'
@@ -127,6 +133,7 @@ class MedicinesSeeder extends Seeder
             'pecio'             => 113.81,
             'pecio_anterior'    => 280.81,
             'stock'             => 10,
+            'contenido'         => 10,
             'comentarios'       => 'Me dicamento en buen estado',
             'caducidad'         => '2023-11-30',
             'codigo_barras'     => '7501285600334'

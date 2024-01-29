@@ -35,8 +35,8 @@
     <script>
         var list = @json($list);
         var user = @json($user);
-
-        var listFormat = list.map(i => [i.id, i.acopio.name, i.fecha, i.total, i.status_orden.status, i.id]);
+        console.log(list);
+        var listFormat = list.map(i => [i.id, i.acopio.name, i.fecha_sistema, i.total, i.status_orden.status, i.id]);
 
 
         document.addEventListener('alpine:init', () => {
@@ -322,7 +322,7 @@
                                 render: function(data, cell, row) {
                                     if (user.level_id == 1) {
                                         return `<div class="flex gap-4 items-center">
-                                    <a href="apps-invoice-preview.html" class="hover:text-primary">
+                                    <a href="{{ url('/orden/preview/${data}') }}" class="hover:text-primary">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
                                             <path
                                                 opacity="0.5"

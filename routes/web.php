@@ -4,6 +4,8 @@ use App\Http\Controllers\AcopioController;
 use App\Http\Controllers\AddressSendController;
 use App\Http\Controllers\FacturationController;
 use App\Http\Controllers\MedicinesController;
+use App\Http\Controllers\MedicinesPatientController;
+use App\Http\Controllers\MedicineStockAcopioController;
 use App\Http\Controllers\OrdenMedinaController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PatientController;
@@ -85,6 +87,13 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::put('/update/{patient}',                     [PatientController::class, 'update'])->name('patient.update');
         Route::get('/delete/{patient}',                     [PatientController::class, 'destroy'])->name('patient.destroy');
         Route::get('/perfil/{patient}',                     [PatientController::class, 'profile'])->name('patient.profile');
+
+        // Dirección
+        Route::prefix('medicamentos')->group(function () {
+            Route::get('/create/{patient}',                 [MedicinesPatientController::class, 'create'])->name('medicine_patiente.create');
+            Route::post('/store',                           [MedicinesPatientController::class, 'store'])->name('medicine_patiente.store');
+            Route::post('/get_box',                         [MedicinesPatientController::class, 'getBox'])->name('medicine_patiente.get_box');
+        });
     });
     // ORDEN
     Route::prefix('orden')->group(function () {
@@ -95,6 +104,8 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::put('/update/{order}',                       [OrderController::class, 'update'])->name('orden.update');
         Route::get('/delete/{order}',                       [OrderController::class, 'destroy'])->name('orden.destroy');
         Route::get('/perfil/{order}',                       [OrderController::class, 'profile'])->name('orden.profile');
+        Route::get('/preview/{order}',                      [OrderController::class, 'preview'])->name('orden.preview');
+        Route::post('/change_status_order',                 [OrderController::class, 'change_status_order'])->name('orden.change_status_order');
     });
 
     // ORDEN

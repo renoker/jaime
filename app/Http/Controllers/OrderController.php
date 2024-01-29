@@ -8,10 +8,14 @@ use App\Models\Acopio;
 use App\Models\AddressSend;
 use App\Models\Facturation;
 use App\Models\Medicines;
+use App\Models\MedicineStockAcopio;
 use App\Models\OrdenMedina;
 use App\Models\Order;
 use App\Models\Patient;
+use App\Models\StatusOrden;
 use Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -40,6 +44,7 @@ class OrderController extends Controller
     {
         $order = Order::with('acopio', 'status_orden')->get();
         $user = Auth::guard('web')->user();
+
         return view("pages.{$this->folder}.index", [
             'list'      => $order,
             'view'      => $this->view,
@@ -98,8 +103,28 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function preview(Order $order)
     {
+        $user = Auth::guard('web')->user();
+        $medicinas = OrdenMedina::where('order_id', $order->id)->get();
+        $facturacion = Facturation::where('acopio_id', $order->acopio_id)->first();
+        $direccion_envio = AddressSend::where('acopio_id', $order->acopio_id)->first();
+        $total = OrdenMedina::where('order_id', $order->id)->sum('pecio');
+        $status_orden = StatusOrden::all();
+        $iva = $total * 0.16;
+        $subtotal = $total - $iva;
+
+        return view("pages.{$this->folder}.preview", [
+            'user'                  => $user,
+            'order'                 => $order,
+            'facturacion'           => $facturacion,
+            'direccion_envio'       => $direccion_envio,
+            'medicinas'             => $medicinas,
+            'subtotal'              => $subtotal,
+            'iva'                   => $iva,
+            'total'                 => $total,
+            'status_orden'          => $status_orden,
+        ]);
     }
 
     /**
@@ -123,7 +148,7 @@ class OrderController extends Controller
             'no_orden'              => $order->count() + 1,
             'acopio'                => $acopio,
             'pacientes'             => $pacientes,
-            'idOrden'               => $order->id,
+            'order'                 => $order,
             'facturacion'           => $facturacion,
             'direccion_envio'       => $direccion_envio,
         ]);
@@ -142,5 +167,32 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function change_status_order(Request $request)
+    {
+        $date = Carbon::now();
+        $formattedDate = $date->format('Y-m-d H:i:s');
+
+        $order = Order::where('id', $request->order_id)->first();
+        $order->status_orden_id = $request->status_orden_id;
+        $order->save();
+
+        if ($request->status_orden_id == 3) {
+            $orden_cliente = OrdenMedina::where('order_id', $order->id)->get();
+
+            foreach ($orden_cliente as $res) {
+                $row = new MedicineStockAcopio();
+                $row->acopio_id = $order->acopio_id;
+                $row->medicine_id = $res->medicine_id;
+                $row->patient_id = $res->patient_id;
+                $row->stock = $res->cantidad;
+                $row->ingreso_almacen = $formattedDate;
+                $row->save();
+            }
+
+            $response = Response(['order' => $orden_cliente], 200);
+            return $response;
+        }
     }
 }
