@@ -7,8 +7,8 @@
                         <a href="index.html" class="main-logo flex shrink-0 items-center">
                             {{-- <img class="ml-[5px] w-8 flex-none" src="assets/images/logo.svg" alt="image" /> --}}
                             <span
-                                class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">Centro
-                                de Acopio</span>
+                                class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">Comunidad
+                                religiosa</span>
                         </a>
                         <a href="javascript:;"
                             class="collapse-icon flex h-8 w-8 items-center rounded-full transition duration-300 hover:bg-gray-500/10 rtl:rotate-180 dark:text-white-light dark:hover:bg-dark-light/10"
@@ -93,8 +93,8 @@
                                     </svg>
 
                                     <span
-                                        class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Centros
-                                        de acopio</span>
+                                        class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Comunidad
+                                        religiosa</span>
                                 </div>
                                 <div class="rtl:rotate-180" :class="{ '!rotate-90': activeDropdown === 'acopio' }">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"

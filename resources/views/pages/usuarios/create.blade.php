@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Agregar')
+@section('titulo', 'Comunidad religiosa - Agregar')
 
 @section('content')
     <!-- start main content section -->

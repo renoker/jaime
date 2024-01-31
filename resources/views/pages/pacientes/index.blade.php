@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Home')
+@section('titulo', 'Comunidad religiosa - Home')
 
 @section('content')
     <div class="mb-5">
@@ -170,7 +170,7 @@
                         hidden: true,
                     },
                     {
-                        name: 'Centro de acopio',
+                        name: 'Comunidad religiosa',
                         hidden: true,
                     },
                     {

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Home')
+@section('titulo', 'Comunidad religiosa - Home')
 
 @section('content')
     <div class="mb-5">
@@ -37,7 +37,7 @@
     <script>
         var list = @json($list);
         console.log(list);
-        var listFormat = list.map(i => [i.id, i.image, i.descripcion, i.id]);
+        var listFormat = list.map(i => [i.id, i.image, i.clave, i.descripcion, i.stock, '$' + i.pecio, i.id]);
 
         document.addEventListener('alpine:init', () => {
             // main section
@@ -162,7 +162,19 @@
                         hidden: true,
                     },
                     {
+                        name: 'Clave',
+                        hidden: true,
+                    },
+                    {
                         name: 'Nombre',
+                        hidden: true,
+                    },
+                    {
+                        name: 'Stock',
+                        hidden: true,
+                    },
+                    {
+                        name: 'Precio',
                         hidden: true,
                     },
                     {
@@ -210,7 +222,7 @@
                                 }
                             },
                             {
-                                select: 3,
+                                select: 6,
                                 sortable: false,
                                 render: (data) => {
                                     return `<div class="flex items-center">

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Editar')
+@section('titulo', 'Comunidad religiosa - Editar')
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ url('assets/css/file-upload-with-preview.min.css') }}" />
 @endsection
@@ -24,7 +24,7 @@
                         @method('PUT')
                         <div>
                             <select class="form-select text-white-dark" name="user_id">
-                                <option value="0">Selecciona el direcctor de este centro de acopio</option>
+                                <option value="0">Selecciona el direcctor de esta comunidad religiosa</option>
                                 @foreach ($directores as $item)
                                     <option value="{{ $item->id }}" @if ($item->id == $row->user_id) selected @endif>
                                         {{ $item->name }}</option>

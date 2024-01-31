@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Orden')
+@section('titulo', 'Comunidad religiosa - Orden')
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -64,7 +64,7 @@
                                 <div style="color: #ff0000">PENDIENTE</div>
                             </div>
                             <div class="mb-2 flex w-full items-center justify-between">
-                                <div class="text-white-dark">Centro de acopio :</div>
+                                <div class="text-white-dark">Comunidad religiosa :</div>
                                 <div>{{ $order->acopio->name }}</div>
                             </div>
                             <div class="flex w-full items-center justify-between">
@@ -403,7 +403,7 @@
 
             swal.fire({
                 title: '¿Quieres combiar el status de esta orden?',
-                text: '¡Notificaremos al acopio del cambió de estatus!',
+                text: '¡Notificaremos a la comunidad religiosa del cambió de estatus!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',

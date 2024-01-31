@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Jaime - Login</title>
+    <title>Comunidad religiosa - Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -67,7 +67,7 @@
                     <img src="assets/images/auth-cover.svg" alt="coming_soon"
                         class="mx-auto lg:max-w-[370px] xl:max-w-[500px]" />
                 </div>
-                <h3 class="mb-4 text-center text-3xl font-bold">Acopio</h3>
+                <h3 class="mb-4 text-center text-3xl font-bold">Comunidad religiosa</h3>
                 <p>Centro captación de medicamentos</p>
             </div>
             <div class="relative flex w-full items-center justify-center lg:w-1/2">

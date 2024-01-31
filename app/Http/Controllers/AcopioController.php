@@ -21,7 +21,7 @@ class AcopioController extends Controller
     function __construct()
     {
         $this->folder = 'centro_acopio';
-        $this->view = 'Centros de acopio';
+        $this->view = 'Comunidades religiosas';
         $this->index = 'acopio.index';
         $this->create = 'acopio.create';
         $this->store = 'acopio.store';

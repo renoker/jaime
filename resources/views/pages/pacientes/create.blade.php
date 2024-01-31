@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Agregar')
+@section('titulo', 'Comunidad religiosa - Agregar')
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ url('assets/css/file-upload-with-preview.min.css') }}" />
 @endsection
@@ -36,13 +36,15 @@
                         </div>
                         <div>
                             <select class="form-select text-white-dark" name="acopio_id">
-                                <option value="0">Selecciona a que centro de acopio pertenece este usuario</option>
+                                <option value="0">Selecciona la comunidad religiosa a la que pertenece este usuario
+                                </option>
                                 @foreach ($acopios as $item)
                                     <option value="{{ $item->id }}">
                                         {{ $item->name }}</option>
                                 @endforeach
                             </select>
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona a que centro de acopio
+                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona al comunidad religiosa a
+                                la que
                                 pertenece este usuario</span>
                         </div>
                         <button type="submit" class="btn btn-primary !mt-6">Agregar</button>

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Home')
+@section('titulo', 'Comunidad religiosa - Home')
 
 @section('content')
     <div class="animate__animated p-6" :class="[$store.app.animation]">

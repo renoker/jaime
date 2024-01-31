@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Home')
+@section('titulo', 'Comunidad religiosa - Home')
 
 @section('content')
     @empty($list[0]->id)
@@ -162,7 +162,7 @@
                         hidden: true,
                     },
                     {
-                        name: 'Centro de acopio',
+                        name: 'Comunidad religiosa',
                         hidden: true,
                     },
                     {

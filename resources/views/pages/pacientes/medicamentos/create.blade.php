@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Agregar')
+@section('titulo', 'Comunidad religiosa - Agregar')
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ url('assets/css/file-upload-with-preview.min.css') }}" />
 @endsection
@@ -34,7 +34,8 @@
                                         {{ $item->medicine->descripcion }}</option>
                                 @endforeach
                             </select>
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona a que centro de acopio
+                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona la comunidad religiosa a
+                                la que
                                 pertenece este usuario</span>
                         </div>
                         <div>

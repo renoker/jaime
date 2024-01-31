@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titulo', 'Jaime - Editar')
+@section('titulo', 'Comunidad religiosa - Editar')
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ url('assets/css/flatpickr.min.css') }}" />
 @endsection
