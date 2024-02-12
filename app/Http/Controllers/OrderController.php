@@ -101,6 +101,33 @@ class OrderController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     */
+    public function addTicket(Request $request)
+    {
+        $row = Order::where('id', $request->orden_id)->first();
+        if ($request->hasFile('image')) {
+            if ($request->file('image')->isValid()) {
+                if (in_array($request->file('image')->extension(), ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $imageName = time() . '.' . $request->image->extension();
+                    $request->image->move(public_path('assets/comprobantes/'), $imageName);
+                    $row->image = 'assets/comprobantes/' . $imageName;
+                } else {
+                    return redirect()->route($this->create)->with('statusError', '¡Imagen no cumple con el formato!');
+                }
+            } else {
+                return redirect()->route($this->create)->with('statusError', '¡Imagen no valida!');
+            }
+        }
+        $row->status_orden_id = 3;
+        $row->save();
+
+        return redirect()->route('orden.preview', $request->orden_id)->with('statusAlta', '¡Fila creada de manera exitosa!');
+    }
+
+
+
+    /**
      * Display the specified resource.
      */
     public function preview(Order $order)
@@ -178,7 +205,7 @@ class OrderController extends Controller
         $order->status_orden_id = $request->status_orden_id;
         $order->save();
 
-        if ($request->status_orden_id == 3) {
+        if ($request->status_orden_id == 5) {
             $orden_cliente = OrdenMedina::where('order_id', $order->id)->get();
 
             foreach ($orden_cliente as $res) {
@@ -194,5 +221,20 @@ class OrderController extends Controller
             $response = Response(['order' => $orden_cliente], 200);
             return $response;
         }
+    }
+
+    public function change_price(Request $request)
+    {
+
+        $order = OrdenMedina::where('id', $request->id)->first();
+        $order->pecio = $request->pecio;
+        $order->save();
+
+        $total = OrdenMedina::where('order_id', $order->order_id)->sum('pecio');
+        $iva = $total * 0.16;
+        $subtotal = $total - $iva;
+
+        $response = Response(['pecio' => number_format($order->pecio, 2, ".", ","), 'total' => number_format($total, 2, ".", ","), 'iva' => number_format($iva, 2, ".", ","), 'subtotal' => number_format($subtotal, 2, ".", ",")], 200);
+        return $response;
     }
 }

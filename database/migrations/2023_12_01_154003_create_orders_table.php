@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('status_orden_id')->default(1);
             $table->text('notas')->nullable();
             $table->date('fecha')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

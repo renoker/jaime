@@ -106,6 +106,8 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/perfil/{order}',                       [OrderController::class, 'profile'])->name('orden.profile');
         Route::get('/preview/{order}',                      [OrderController::class, 'preview'])->name('orden.preview');
         Route::post('/change_status_order',                 [OrderController::class, 'change_status_order'])->name('orden.change_status_order');
+        Route::post('/change_price',                        [OrderController::class, 'change_price'])->name('orden.change_price');
+        Route::post('/add_ticket',                          [OrderController::class, 'addTicket'])->name('orden.add_ticket');
     });
 
     // ORDEN

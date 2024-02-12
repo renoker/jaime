@@ -14,15 +14,23 @@ class StatusOrdenSeeder extends Seeder
     public function run(): void
     {
         StatusOrden::create([
-            'status'  => 'Pedido',
+            'status'    => 'Solicitud de cotización',
         ]);
 
         StatusOrden::create([
-            'status'  => 'Enviado',
+            'status'    => 'Envío de cotización',
         ]);
 
         StatusOrden::create([
-            'status'  => 'Entregado',
+            'status'    => 'Confirmación de la cotización y pago',
+        ]);
+
+        StatusOrden::create([
+            'status'    => 'Envío',
+        ]);
+
+        StatusOrden::create([
+            'status'    => 'Entregado',
         ]);
     }
 }
