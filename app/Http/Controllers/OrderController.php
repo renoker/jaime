@@ -108,15 +108,15 @@ class OrderController extends Controller
         $row = Order::where('id', $request->orden_id)->first();
         if ($request->hasFile('image')) {
             if ($request->file('image')->isValid()) {
-                if (in_array($request->file('image')->extension(), ['jpg', 'jpeg', 'png', 'webp'])) {
+                if (in_array($request->file('image')->extension(), ['jpg', 'jpeg', 'png', 'webp', 'pdf'])) {
                     $imageName = time() . '.' . $request->image->extension();
                     $request->image->move(public_path('assets/comprobantes/'), $imageName);
                     $row->image = 'assets/comprobantes/' . $imageName;
                 } else {
-                    return redirect()->route($this->create)->with('statusError', '¡Imagen no cumple con el formato!');
+                    return redirect()->route('orden.preview', $request->orden_id)->with('statusError', '¡Imagen no cumple con el formato!');
                 }
             } else {
-                return redirect()->route($this->create)->with('statusError', '¡Imagen no valida!');
+                return redirect()->route('orden.preview', $request->orden_id)->with('statusError', '¡Imagen no valida!');
             }
         }
         $row->status_orden_id = 3;
@@ -136,10 +136,11 @@ class OrderController extends Controller
         $medicinas = OrdenMedina::where('order_id', $order->id)->get();
         $facturacion = Facturation::where('acopio_id', $order->acopio_id)->first();
         $direccion_envio = AddressSend::where('acopio_id', $order->acopio_id)->first();
-        $total = OrdenMedina::where('order_id', $order->id)->sum('pecio');
+        $result = OrdenMedina::where('order_id', $order->id)->selectRaw('SUM(pecio * cantidad) as total')->first();
+        // dd($total);
         $status_orden = StatusOrden::all();
-        $iva = $total * 0.16;
-        $subtotal = $total - $iva;
+        $iva = $result->total * 0.16;
+        $subtotal = $result->total - $iva;
 
         return view("pages.{$this->folder}.preview", [
             'user'                  => $user,
@@ -149,7 +150,7 @@ class OrderController extends Controller
             'medicinas'             => $medicinas,
             'subtotal'              => $subtotal,
             'iva'                   => $iva,
-            'total'                 => $total,
+            'total'                 => $result->total,
             'status_orden'          => $status_orden,
         ]);
     }
@@ -230,11 +231,11 @@ class OrderController extends Controller
         $order->pecio = $request->pecio;
         $order->save();
 
-        $total = OrdenMedina::where('order_id', $order->order_id)->sum('pecio');
-        $iva = $total * 0.16;
-        $subtotal = $total - $iva;
+        $result = OrdenMedina::where('order_id', $order->order_id)->selectRaw('SUM(pecio * cantidad) as total')->first();
+        $iva = $result->total * 0.16;
+        $subtotal = $result->total - $iva;
 
-        $response = Response(['pecio' => number_format($order->pecio, 2, ".", ","), 'total' => number_format($total, 2, ".", ","), 'iva' => number_format($iva, 2, ".", ","), 'subtotal' => number_format($subtotal, 2, ".", ",")], 200);
+        $response = Response(['pecio' => number_format($order->pecio, 2, ".", ","), 'total' => number_format($result->total, 2, ".", ","), 'iva' => number_format($iva, 2, ".", ","), 'subtotal' => number_format($subtotal, 2, ".", ",")], 200);
         return $response;
     }
 }

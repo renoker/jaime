@@ -85,6 +85,7 @@
     <script defer src="{{ url('assets/js/alpine-focus.min.js') }}"></script>
     <script defer src="{{ url('assets/js/alpine.min.js') }}"></script>
     <script src="{{ url('assets/js/custom.js') }}"></script>
+    <script src="{{ url('assets/js/quill.js') }}"></script>
 
     @yield('scripts')
 </body>

@@ -26,21 +26,31 @@
                         @method('POST')
                         <input type="hidden" name="patient_id" value="{{ $patient->id }}">
                         <div>
+                            <select class="form-select text-white-dark" name="inventorie_id" id="inventorie_id"
+                                onchange="getInventario()">
+                                <option value="0">Medicamentos disponibles</option>
+                                @foreach ($inventario as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->descripcion }}</option>
+                                @endforeach
+                            </select>
+                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona un medicamento de tu
+                                inventario</span>
+                        </div>
+                        <div>
                             <select class="form-select text-white-dark" name="medicine_id" id="medicine_id"
                                 onchange="getBox()">
                                 <option value="0">Medicamentos disponibles</option>
                                 @foreach ($medicinas as $item)
                                     <option value="{{ $item->medicine_id }}">
-                                        {{ $item->medicine->descripcion }}</option>
+                                        {{ $item->medicine->descripcion ?? 'S/N' }}</option>
                                 @endforeach
                             </select>
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona la comunidad religiosa a
-                                la que
-                                pertenece este usuario</span>
+                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona el medicamento disponible
+                                para este paciente</span>
                         </div>
                         <div>
-                            <input type="text" placeholder="Cajas" name="no_cajas" id="cajas" class="form-input"
-                                readonly />
+                            <input type="text" placeholder="Cajas" name="no_cajas" id="cajas" class="form-input" />
                             <span class="mt-1 inline-block text-[11px] text-white-dark">Cajas entregadas</span>
                         </div>
                         <div>
@@ -285,7 +295,6 @@
         });
 
         function getBox() {
-
             var IDmedicine = document.getElementById('medicine_id').value
 
             var myHeaders = new Headers();
@@ -309,7 +318,36 @@
                 .then(response => response.json())
                 .then(result => {
                     document.getElementById('cajas').value = result.response.stock
-                    console.log(result);
+                    document.getElementById("inventorie_id").disabled = true;
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        function getInventario() {
+            var IDinventario = document.getElementById('inventorie_id').value
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+            myHeaders.append("Accept", "application/json");
+            myHeaders.append("X-CSRF-TOKEN", document.querySelector('meta[name="csrf-token"]')
+                .getAttribute('content'));
+
+            var formdata = new URLSearchParams();
+            formdata.append("id", IDinventario)
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch("/pacientes/medicamentos/get_inventario",
+                    requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    document.getElementById('cajas').value = result.response.stock
+                    document.getElementById("medicine_id").disabled = true;
                 })
                 .catch(error => console.log('error', error));
         }

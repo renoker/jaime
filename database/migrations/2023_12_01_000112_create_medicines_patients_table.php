@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->foreign('medicine_id')->references('id')->on('medicines');
             $table->unsignedBigInteger('medicine_id')->nullable();
+            $table->foreign('inventorie_id')->references('id')->on('inventories');
+            $table->unsignedBigInteger('inventorie_id')->nullable();
             $table->bigInteger('no_cajas');
             $table->integer('dosis')->nullable();
             $table->integer('periodicidad')->nullable();

@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('titulo', 'Comunidad religiosa - Home')
+@section('meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 
 @section('content')
     <div class="animate__animated p-6" :class="[$store.app.animation]">
@@ -169,6 +172,7 @@
                                                                         <th>Dosis / día</th>
                                                                         <th>Prioricidad</th>
                                                                         <th>Tiempo con medicamento</th>
+                                                                        <th>Acciones</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -186,6 +190,10 @@
                                                                         </td>
                                                                         <td class="text-info">
                                                                             {{ $item->tiempo_restante_medicamento }}</td>
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-danger"
+                                                                                onclick="suspenderMedicamento({{ $item->id }})">Suspender</button>
+                                                                        </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -418,6 +426,80 @@
 
         function addMedicamento(value) {
             window.location.href = '/pacientes/medicamentos/create/' + value
+        }
+
+        function suspenderMedicamento(id) {
+            var myHeaders = new Headers();
+            myHeaders.append("Accept", "application/json");
+            myHeaders.append("X-CSRF-TOKEN", document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+            var formdata = new FormData();
+            formdata.append("id", id)
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch("/pacientes/medicamentos/suspender_medicamento", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+
+                    agregarMedicamento(result.response.id, result.response.descripcion);
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        async function agregarMedicamento(id, nameMedicine) {
+            const {
+                value: formValues
+            } = await Swal.fire({
+                title: nameMedicine,
+                html: `<input id="swal-input1" class="swal2-input" placeholder="Cajas">
+                <input id="swal-input2" class="swal2-input" placeholder="Piezas">`,
+                focusConfirm: false,
+                showDenyButton: true,
+                confirmButtonText: "Agregar",
+                denyButtonText: `Agregar otra caja`,
+                preConfirm: () => {
+                    return [
+                        document.getElementById("swal-input1").value,
+                        document.getElementById("swal-input2").value
+                    ];
+                }
+            });
+            if (formValues) {
+
+
+                var myHeaders = new Headers();
+                myHeaders.append("Accept", "application/json");
+                myHeaders.append("X-CSRF-TOKEN", document.querySelector(
+                        'meta[name="csrf-token"]')
+                    .getAttribute('content'));
+
+                var formdata = new FormData();
+                formdata.append("inventorie_id", id)
+                formdata.append("stock", formValues[0])
+                formdata.append("contenido", formValues[1])
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: formdata,
+                    redirect: 'follow'
+                };
+
+                fetch("/pacientes/medicamentos/add_price", requestOptions)
+                    .then(response => response.json())
+                    .then(result => {
+                        location.reload();
+                    })
+                    .catch(error => console.log('error', error));
+            }
+
+
         }
     </script>
 @endsection

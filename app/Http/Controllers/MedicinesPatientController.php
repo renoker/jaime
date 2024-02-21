@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMedicinesPatientRequest;
 use App\Http\Requests\UpdateMedicinesPatientRequest;
+use App\Models\Acopio;
+use App\Models\Inventory;
+use App\Models\Medicines;
 use App\Models\MedicinesPatient;
 use App\Models\MedicineStockAcopio;
 use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MedicinesPatientController extends Controller
 {
@@ -43,6 +48,9 @@ class MedicinesPatientController extends Controller
      */
     public function create(Patient $patient)
     {
+        $user = Auth::guard('web')->user();
+        $acopio = Acopio::where('user_id', $user->id)->first();
+        $inventario = Inventory::where('acopio_id', $acopio->id)->get();
         $medicinas = MedicineStockAcopio::where('patient_id', $patient->id)->get();
         return view("pages.{$this->folder}.create", [
             'patient'   => $patient,
@@ -50,6 +58,7 @@ class MedicinesPatientController extends Controller
             'index'     => $this->index,
             'store'     => $this->store,
             'medicinas' => $medicinas,
+            'inventario' => $inventario,
         ]);
     }
 
@@ -58,17 +67,42 @@ class MedicinesPatientController extends Controller
      */
     public function store(StoreMedicinesPatientRequest $request)
     {
-        $row = new MedicinesPatient();
 
-        $row->patient_id = $request->patient_id;
-        $row->medicine_id = $request->medicine_id;
-        $row->no_cajas = $request->no_cajas;
-        $row->dosis = $request->dosis;
-        $row->periodicidad = $request->periodicidad;
+        if (!empty($request->inventorie_id)) {
+            $inventario = Inventory::where('id', $request->inventorie_id)->first();
+            if ($inventario->stock <= $request->no_cajas) {
 
-        $row->save();
+                $row = new MedicinesPatient();
 
-        return redirect()->route($this->index, $request->patient_id)->with('statusAlta', '¡Fila creada de manera exitosa!');
+                $row->patient_id = $request->patient_id;
+                $row->inventorie_id = $request->inventorie_id;
+                $row->no_cajas = $request->no_cajas;
+                $row->dosis = $request->dosis;
+                $row->periodicidad = $request->periodicidad;
+
+                $row->save();
+
+                return redirect()->route($this->index, $request->patient_id)->with('statusAlta', '¡Fila creada de manera exitosa!');
+            }
+        }
+
+        if (!empty($request->medicine_id)) {
+            $inventario = MedicineStockAcopio::where('medicine_id', $request->medicine_id)->first();
+            if ($inventario->stock <= $request->no_cajas) {
+
+                $row = new MedicinesPatient();
+
+                $row->patient_id = $request->patient_id;
+                $row->medicine_id = $request->medicine_id;
+                $row->no_cajas = $request->no_cajas;
+                $row->dosis = $request->dosis;
+                $row->periodicidad = $request->periodicidad;
+
+                $row->save();
+
+                return redirect()->route($this->index, $request->patient_id)->with('statusAlta', '¡Fila creada de manera exitosa!');
+            }
+        }
     }
 
     /**
@@ -107,6 +141,58 @@ class MedicinesPatientController extends Controller
     {
         $box = MedicineStockAcopio::where('id', $request->id)->first();
         $response = Response(['response' => $box], 200);
+        return $response;
+    }
+
+    public function getInventario(Request $request)
+    {
+        $box = Inventory::where('id', $request->id)->first();
+        $response = Response(['response' => $box], 200);
+        return $response;
+    }
+
+    public function suspendeMedicamento(Request $request)
+    {
+        $user = Auth::guard('web')->user();
+        $acopio = Acopio::where('user_id', $user->id)->first();
+        $medicinesPatient = MedicinesPatient::where('id', $request->id)->first();
+        // obtenemos la información del medicamento 
+        $medicamento = Medicines::where('id', $medicinesPatient->medicine_id)->first();
+
+        // Guardamos el medicamento en el inventario
+        $row = new Inventory;
+        $row->acopio_id = $acopio->id;
+        $row->image = $medicamento->image;
+        $row->clave = $medicamento->clave;
+        $row->descripcion = $medicamento->descripcion;
+        $row->principal_activo = $medicamento->principal_activo;
+        $row->laboratorio = $medicamento->laboratorio;
+        $row->iva = $medicamento->iva;
+        $row->pecio_maximo = $medicamento->pecio_maximo;
+        $row->descuento = $medicamento->descuento;
+        $row->pecio = $medicamento->pecio;
+        $row->pecio_anterior = $medicamento->pecio_anterior;
+        $row->stock = 0;
+        $row->contenido = 0;
+        $row->comentarios = $medicamento->comentarios;
+        $row->caducidad = $medicamento->caducidad;
+        $row->codigo_barras = $medicamento->codigo_barras;
+        $row->save();
+
+        $medicinesPatient->delete();
+
+
+        $response = Response(['response' => $row], 200);
+        return $response;
+    }
+
+    public function addPrice(Request $request)
+    {
+        $inventory = Inventory::where('id', $request->inventorie_id)->first();
+        $inventory->stock = $request->stock;
+        $inventory->contenido = $request->contenido;
+        $inventory->save();
+        $response = Response(['response' => $inventory], 200);
         return $response;
     }
 }

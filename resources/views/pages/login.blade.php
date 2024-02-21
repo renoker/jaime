@@ -62,13 +62,11 @@
         <!-- start main content section -->
         <div class="flex min-h-screen">
             <div
-                class="hidden min-h-screen w-1/2 flex-col items-center justify-center bg-gradient-to-t from-[#ff1361bf] to-[#44107A] p-4 text-white dark:text-black lg:flex">
+                class="hidden min-h-screen w-1/2 flex-col items-center justify-center bg-gradient-to-t from-[#ff1361bf] to-[#FFF] p-4 text-white dark:text-black lg:flex">
                 <div class="mx-auto mb-5 w-full">
-                    <img src="assets/images/auth-cover.svg" alt="coming_soon"
+                    <img src="{{ url('assets/icons/logo_2.png') }}" alt="coming_soon"
                         class="mx-auto lg:max-w-[370px] xl:max-w-[500px]" />
                 </div>
-                <h3 class="mb-4 text-center text-3xl font-bold">Comunidad religiosa</h3>
-                <p>Centro captación de medicamentos</p>
             </div>
             <div class="relative flex w-full items-center justify-center lg:w-1/2">
                 <div class="max-w-[480px] p-5 md:p-10">

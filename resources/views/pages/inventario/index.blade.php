@@ -36,8 +36,8 @@
 
     <script>
         var list = @json($list);
-        var listFormat = list.map(i => [i.id, i.name, i.id, i.id, i.id, i.id]);
-        console.log(listFormat);
+        console.log(list);
+        var listFormat = list.map(i => [i.id, i.image, i.clave, i.descripcion, i.stock, '$' + i.pecio, i.id]);
 
         document.addEventListener('alpine:init', () => {
             // main section
@@ -158,19 +158,23 @@
                         hidden: true,
                     },
                     {
+                        name: 'Imagen',
+                        hidden: true,
+                    },
+                    {
+                        name: 'Clave',
+                        hidden: true,
+                    },
+                    {
                         name: 'Nombre',
                         hidden: true,
                     },
                     {
-                        name: 'Archivos',
+                        name: 'Stock',
                         hidden: true,
                     },
                     {
-                        name: 'Facturación',
-                        hidden: true,
-                    },
-                    {
-                        name: 'Dirección',
+                        name: 'Precio',
                         hidden: true,
                     },
                     {
@@ -180,7 +184,7 @@
                 ],
 
                 hideCols: [0],
-                showCols: [0, 1, 2, 3, 4],
+                showCols: [0, 1, 2, 3],
                 showHideColumns(col, value) {
                     if (value) {
                         this.showCols.push(col);
@@ -212,34 +216,13 @@
                             },
                             {
                                 select: 1,
-                                sort: 'asc',
+                                sortable: false,
+                                render: (data) => {
+                                    return `<img src="${data}" style="width: 100px" alt="">`
+                                }
                             },
                             {
-                                select: 2,
-                                render: function(data, cell, row) {
-                                    return (
-                                        `<a href="{{ url('/acopio/archivos/h/${data}') }}" class="text-primary underline font-semibold hover:no-underline">Archivos</a>`
-                                    );
-                                },
-                            },
-                            {
-                                select: 3,
-                                render: function(data, cell, row) {
-                                    return (
-                                        `<a href="{{ url('/acopio/facturacion/h/${data}') }}" class="text-primary underline font-semibold hover:no-underline">Ver Facturación</a>`
-                                    );
-                                },
-                            },
-                            {
-                                select: 4,
-                                render: function(data, cell, row) {
-                                    return (
-                                        `<a href="{{ url('/acopio/direccion_envio/h/${data}') }}" class="text-primary underline font-semibold hover:no-underline">Ver Dirección de envío</a>`
-                                    );
-                                },
-                            },
-                            {
-                                select: 5,
+                                select: 6,
                                 sortable: false,
                                 render: (data) => {
                                     return `<div class="flex items-center">
@@ -260,7 +243,7 @@
                                                 </button>
                                             </div>`
                                 },
-                            },
+                            }
                         ],
                         firstLast: true,
                         firstText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
@@ -294,12 +277,45 @@
 
         function onForm(id) {
             const row = list.find(f => f.id == id)
-            window.location.href = "acopio/edit/" + row.id
+            window.location.href = "/inventario/edit/" + row.id
         }
 
         function onDelete(id) {
-            const row = list.find(f => f.id == id)
-            window.location.href = "acopio/delete/" + row.id
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger"
+                },
+                buttonsStyling: false
+            });
+            swalWithBootstrapButtons.fire({
+                title: "¿Deseas eliminar la fila?",
+                text: "Todos los cambios son irreversibles",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, borrar!",
+                cancelButtonText: "No, cancelar!",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const row = list.find(f => f.id == id)
+                    window.location.href = "/inventario/delete/" + row.id
+                    swalWithBootstrapButtons.fire({
+                        title: "Borrado!",
+                        text: "Fila elimianda con éxito.",
+                        icon: "success"
+                    });
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelado",
+                        text: "La fila no fue eliminada!",
+                        icon: "error"
+                    });
+                }
+            });
         }
     </script>
 @endsection

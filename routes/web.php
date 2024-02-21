@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AcopioController;
 use App\Http\Controllers\AddressSendController;
+use App\Http\Controllers\ArchivosController;
 use App\Http\Controllers\FacturationController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MedicinesController;
 use App\Http\Controllers\MedicinesPatientController;
 use App\Http\Controllers\MedicineStockAcopioController;
@@ -68,6 +70,14 @@ Route::group(['middleware' => 'auth:web'], function () {
             Route::put('/update/{address_send}',                    [AddressSendController::class, 'update'])->name('address_send.update');
             Route::get('/delete/{address_send}',                    [AddressSendController::class, 'destroy'])->name('address_send.destroy');
         });
+        // Archivos
+        Route::prefix('archivos')->group(function () {
+            Route::get('/h/{acopio}',                               [ArchivosController::class, 'index'])->name('archivos.index');
+            Route::get('/create/{acopio}',                          [ArchivosController::class, 'create'])->name('archivos.create');
+            Route::post('/store',                                   [ArchivosController::class, 'store'])->name('archivos.store');
+            Route::put('/update/{archivo}',                         [ArchivosController::class, 'update'])->name('archivos.update');
+            Route::get('/delete/{archivo}',                         [ArchivosController::class, 'destroy'])->name('archivos.destroy');
+        });
     });
     // MEDICAMENTOS
     Route::prefix('medicamentos')->group(function () {
@@ -93,6 +103,9 @@ Route::group(['middleware' => 'auth:web'], function () {
             Route::get('/create/{patient}',                 [MedicinesPatientController::class, 'create'])->name('medicine_patiente.create');
             Route::post('/store',                           [MedicinesPatientController::class, 'store'])->name('medicine_patiente.store');
             Route::post('/get_box',                         [MedicinesPatientController::class, 'getBox'])->name('medicine_patiente.get_box');
+            Route::post('/get_inventario',                  [MedicinesPatientController::class, 'getInventario'])->name('medicine_patiente.get_inventario');
+            Route::post('/suspender_medicamento',           [MedicinesPatientController::class, 'suspendeMedicamento'])->name('medicine_patiente.suspendeMedicamento');
+            Route::post('/add_price',                       [MedicinesPatientController::class, 'addPrice'])->name('medicine_patiente.add_price');
         });
     });
     // ORDEN
@@ -120,5 +133,15 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::delete('/delete/{ordenMedina}',              [OrdenMedinaController::class, 'destroy'])->name('ordenMedina.destroy');
         Route::get('/perfil/{ordenMedina}',                 [OrdenMedinaController::class, 'profile'])->name('ordenMedina.profile');
         Route::get('/get_orden_medicinas/{order}',          [OrdenMedinaController::class, 'getOrdenMedicina'])->name('ordenMedina.get_orden_medicinas');
+    });
+
+    // INVENTARIO
+    Route::prefix('inventario')->group(function () {
+        Route::get('/',                                     [InventoryController::class, 'index'])->name('inventory.index');
+        Route::get('/create',                               [InventoryController::class, 'create'])->name('inventory.create');
+        Route::post('/store',                               [InventoryController::class, 'store'])->name('inventory.store');
+        Route::get('/edit/{inventory}',                     [InventoryController::class, 'edit'])->name('inventory.edit');
+        Route::put('/update/{inventory}',                   [InventoryController::class, 'update'])->name('inventory.update');
+        Route::delete('/delete/{inventory}',                [InventoryController::class, 'destroy'])->name('inventory.destroy');
     });
 });
