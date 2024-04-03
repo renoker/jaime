@@ -59,7 +59,7 @@ class OrderController extends Controller
     public function create()
     {
         $user = Auth::guard('web')->user();
-        $medicinas = Medicines::where('stock', '>', 0)->get();
+        $medicinas = Medicines::all();
         $acopio = Acopio::where('user_id', $user->id)->first();
         $order = Order::where('acopio_id', $user->id)->get();
         $pacientes = Patient::where('acopio_id', $acopio->id)->get();
@@ -194,7 +194,8 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return redirect()->route($this->index)->with('statusDelete', '¡Fila eliminada de manera exitosa!');
     }
 
     public function change_status_order(Request $request)

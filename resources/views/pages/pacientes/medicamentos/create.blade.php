@@ -55,7 +55,8 @@
                         </div>
                         <div>
                             <input type="text" placeholder="Dosis" name="dosis" class="form-input" />
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa la dosis</span>
+                            <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa la dosis a dar al
+                                paciente</span>
                         </div>
                         <div>
                             <input type="text" placeholder="Periodicidad en Horas" name="periodicidad"

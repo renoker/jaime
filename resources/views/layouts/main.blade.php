@@ -26,6 +26,19 @@
     :class="[$store.app.sidebar ? 'toggle-sidebar' : '', $store.app.theme, $store.app.menu, $store.app.layout, $store.app
         .rtlClass
     ]">
+
+    @if (session('alertaSistema'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire(
+                    'Error',
+                    'Tuvimos un problema al realizar la carga de productos. Verifica que estás ocupando la plantilla y que estás llenando todos campos obligatorios',
+                    'warning'
+                )
+            });
+        </script>
+    @endif
+
     <!-- sidebar menu overlay -->
     <div x-cloak class="fixed inset-0 z-50 bg-[black]/60 lg:hidden" :class="{ 'hidden': !$store.app.sidebar }"
         @click="$store.app.toggleSidebar()"></div>

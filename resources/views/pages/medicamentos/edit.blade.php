@@ -23,7 +23,7 @@
                         @csrf
                         @method('PUT')
                         <div>
-                            <img src="{{ url($row->image) }}" alt="" width="100px">
+                            <img src="{{ url($row->image ?? 'assets/images/descarga.png') }}" alt="" width="100px">
                             <span class="mt-1 inline-block text-[20px] text-white-dark">Imagen actual</span>
                         </div>
                         <div>

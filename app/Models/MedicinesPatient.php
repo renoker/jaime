@@ -24,7 +24,11 @@ class MedicinesPatient extends Model
     public function getTiempoRestanteMedicamentoAttribute()
     {
         // Buscar el medicamento que le asignaron al paciente
-        $contenido_caja_medicamento = Medicines::find($this->medicine_id)->contenido;
+        if (!empty($this->medicine_id)) {
+            $contenido_caja_medicamento = Medicines::find($this->medicine_id)->contenido;
+        } elseif (!empty($this->inventorie_id)) {
+            $contenido_caja_medicamento = Inventory::find($this->inventorie_id)->contenido;
+        }
         // Fecha de entrega
         $fechaEntrega = Carbon::parse($this->created_at);
         // Fecha actual
@@ -55,10 +59,25 @@ class MedicinesPatient extends Model
         return $fecha->format('d') . ' de ' . $mes . ' del ' . $fecha->format('Y');
     }
 
+    public function getMedicamentoAttribute()
+    {
+        if (!empty($this->medicine_id)) {
+            $medicamento = Medicines::find($this->medicine_id);
+        } elseif (!empty($this->inventorie_id)) {
+            $medicamento = Inventory::find($this->inventorie_id);
+        }
+
+        return $medicamento;
+    }
+
     public function getFechaTerminoMedicamentoAttribute()
     {
         // Buscar el medicamento que le asignaron al paciente
-        $contenido_caja_medicamento = Medicines::find($this->medicine_id)->contenido;
+        if (!empty($this->medicine_id)) {
+            $contenido_caja_medicamento = Medicines::find($this->medicine_id)->contenido;
+        } elseif (!empty($this->inventorie_id)) {
+            $contenido_caja_medicamento = Inventory::find($this->inventorie_id)->contenido;
+        }
         $dosis_por_dia = 24 / $this->periodicidad;
         // Cuantos días tendra medicamento el paciente
         $dias_de_medicamento = $contenido_caja_medicamento / $dosis_por_dia;

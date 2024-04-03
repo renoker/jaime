@@ -414,15 +414,40 @@
                 },
 
                 deleteRow(item) {
-                    if (confirm('Are you sure want to delete selected row ?')) {
-                        if (item) {
-                            this.items = this.items.filter((d) => d.id != item);
-                            this.selectedRows = [];
-                        } else {
-                            this.items = this.items.filter((d) => !this.selectedRows.includes(d.id));
-                            this.selectedRows = [];
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: "btn btn-success",
+                            cancelButton: "btn btn-danger"
+                        },
+                        buttonsStyling: false
+                    });
+                    swalWithBootstrapButtons.fire({
+                        title: "¿Deseas eliminar la fila?",
+                        text: "Todos los cambios son irreversibles",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Si, borrar!",
+                        cancelButtonText: "No, cancelar!",
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/orden/delete/" + item
+                            swalWithBootstrapButtons.fire({
+                                title: "Borrado!",
+                                text: "Fila elimianda con éxito.",
+                                icon: "success"
+                            });
+                        } else if (
+                            /* Read more about handling dismissals below */
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire({
+                                title: "Cancelado",
+                                text: "La fila no fue eliminada!",
+                                icon: "error"
+                            });
                         }
-                    }
+                    });
                 },
             }));
         });

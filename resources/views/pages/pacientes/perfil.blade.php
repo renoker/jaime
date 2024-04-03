@@ -159,7 +159,7 @@
                                                             <tr>
                                                                 <th style="text-align: center;" colspan="5">
                                                                     <strong>Medicamento</strong> <br>
-                                                                    {{ $item->medicine->descripcion }}
+                                                                    {{ $item->medicamento->descripcion }}
                                                                 </th>
                                                             </tr>
                                                         </thead>

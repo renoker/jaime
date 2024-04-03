@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('descripcion')->nullable();
             $table->string('principal_activo')->nullable();
             $table->string('laboratorio')->nullable();
-            $table->decimal('iva', $precision = 8, $scale = 2)->nullable();
+            $table->string('iva')->nullable();
             $table->double('pecio_maximo', 8, 2)->nullable();
             $table->integer('descuento')->nullable();
             $table->double('pecio', 8, 2)->nullable();

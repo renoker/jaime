@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMedicinesRequest;
 use App\Http\Requests\UpdateMedicinesRequest;
 use App\Models\Medicines;
 use App\Models\StatesMedication;
+use Illuminate\Support\Facades\Auth;
 
 class MedicinesController extends Controller
 {
@@ -33,11 +34,14 @@ class MedicinesController extends Controller
      */
     public function index()
     {
-        $users = Medicines::all();
+        $medicamentos = Medicines::all();
+        $user = Auth::guard('web')->user();
         return view("pages.{$this->folder}.index", [
-            'list'  => $users,
+            'list'  => $medicamentos,
             'view'  => $this->view,
             'create'  => $this->create,
+            'importador'  => 'medicamentos.import',
+            'user'  => $user,
         ]);
     }
 
@@ -87,6 +91,7 @@ class MedicinesController extends Controller
         $row->stock = $request->stock;
         $row->comentarios = $request->comentarios;
         $row->caducidad = $request->caducidad;
+        $row->contenido = $request->contenido;
         $row->codigo_barras = $request->codigo_barras;
 
         $row->save();
@@ -147,6 +152,7 @@ class MedicinesController extends Controller
         $medicine->stock = $request->stock;
         $medicine->comentarios = $request->comentarios;
         $medicine->caducidad = $request->caducidad;
+        $medicine->contenido = $request->contenido;
         $medicine->codigo_barras = $request->codigo_barras;
 
         $medicine->save();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Models\Acopio;
 use App\Models\Level;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,7 +32,13 @@ class UserController extends Controller
     // Listado de usuarios
     public function index()
     {
-        $users = User::with('level')->get();
+        $user = Auth::guard('web')->user();
+        if ($user->level_id == 1) {
+            $users = User::with('level')->get();
+        } elseif ($user->level_id == 2) {
+            $users = User::with('level')->get();
+        }
+
         return view("pages.{$this->folder}.index", [
             'list'  => $users,
             'view'  => $this->view,

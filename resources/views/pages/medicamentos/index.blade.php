@@ -2,19 +2,32 @@
 @section('titulo', 'Comunidad religiosa - Home')
 
 @section('content')
-    <div class="mb-5">
-        <a href="{{ route($create) }}">
-            <button type="button" class="btn btn-primary flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                    class="h-5 w-5 ltr:mr-3 rtl:ml-3">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                Agregar
-            </button>
-        </a>
-    </div>
+    @if (Auth::guard('web')->user()->level_id == 1)
+        <div class="flex gap-5 mb-5">
+            <a href="{{ route($create) }}">
+                <button type="button" class="btn btn-primary flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="h-5 w-5 ltr:mr-3 rtl:ml-3">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Agregar
+                </button>
+            </a>
+            <a href="{{ route($importador) }}">
+                <button type="button" class="btn btn-primary flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="h-5 w-5 ltr:mr-3 rtl:ml-3">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Importar medicamentos
+                </button>
+            </a>
+        </div>
+    @endif
     <!-- start main content section -->
     <div x-data="miscellaneous">
         <div class="space-y-6">
@@ -36,196 +49,222 @@
 
     <script>
         var list = @json($list);
-        console.log(list);
-        var listFormat = list.map(i => [i.id, i.image, i.clave, i.descripcion, i.stock, '$' + i.pecio, i.id]);
+        var user = @json($user);
 
-        document.addEventListener('alpine:init', () => {
-            // main section
-            Alpine.data('scrollToTop', () => ({
-                showTopButton: false,
-                init() {
-                    window.onscroll = () => {
-                        this.scrollFunction();
-                    };
-                },
+        if (user['level_id'] == 1) {
+            var listFormat = list.map(i => [i.id, i.image, i.clave, i.descripcion, i.stock, '$' + i.pecio, i.id]);
+            document.addEventListener('alpine:init', () => {
+                // main section
+                Alpine.data('scrollToTop', () => ({
+                    showTopButton: false,
+                    init() {
+                        window.onscroll = () => {
+                            this.scrollFunction();
+                        };
+                    },
 
-                scrollFunction() {
-                    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-                        this.showTopButton = true;
-                    } else {
-                        this.showTopButton = false;
-                    }
-                },
-
-                goToTop() {
-                    document.body.scrollTop = 0;
-                    document.documentElement.scrollTop = 0;
-                },
-            }));
-
-            // theme customization
-            Alpine.data('customizer', () => ({
-                showCustomizer: false,
-            }));
-
-            // sidebar section
-            Alpine.data('sidebar', () => ({
-                init() {
-                    const selector = document.querySelector('.sidebar ul a[href="' + window.location
-                        .pathname + '"]');
-                    if (selector) {
-                        selector.classList.add('active');
-                        const ul = selector.closest('ul.sub-menu');
-                        if (ul) {
-                            let ele = ul.closest('li.menu').querySelectorAll('.nav-link');
-                            if (ele) {
-                                ele = ele[0];
-                                setTimeout(() => {
-                                    ele.click();
-                                });
-                            }
+                    scrollFunction() {
+                        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                            this.showTopButton = true;
+                        } else {
+                            this.showTopButton = false;
                         }
-                    }
-                },
-            }));
-
-            // header section
-            Alpine.data('header', () => ({
-                init() {
-                    const selector = document.querySelector('ul.horizontal-menu a[href="' + window
-                        .location.pathname + '"]');
-                    if (selector) {
-                        selector.classList.add('active');
-                        const ul = selector.closest('ul.sub-menu');
-                        if (ul) {
-                            let ele = ul.closest('li.menu').querySelectorAll('.nav-link');
-                            if (ele) {
-                                ele = ele[0];
-                                setTimeout(() => {
-                                    ele.classList.add('active');
-                                });
-                            }
-                        }
-                    }
-                },
-
-                notifications: [{
-                        id: 1,
-                        profile: 'user-profile.jpeg',
-                        message: '<strong class="text-sm mr-1">John Doe</strong>invite you to <strong>Prototyping</strong>',
-                        time: '45 min ago',
                     },
-                    {
-                        id: 2,
-                        profile: 'profile-34.jpeg',
-                        message: '<strong class="text-sm mr-1">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
-                        time: '9h Ago',
-                    },
-                    {
-                        id: 3,
-                        profile: 'profile-16.jpeg',
-                        message: '<strong class="text-sm mr-1">Anna Morgan</strong>Upload a file',
-                        time: '9h Ago',
-                    },
-                ],
 
-                messages: [{
-                    id: 1,
-                    image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
-                    title: 'Congratulations!',
-                    message: 'Your OS has been updated.',
-                    time: '1hr',
-                }, ],
-
-                languages: [{
-                    id: 1,
-                    key: 'Chinese',
-                    value: 'zh',
-                }, ],
-
-                removeNotification(value) {
-                    this.notifications = this.notifications.filter((d) => d.id !== value);
-                },
-
-                removeMessage(value) {
-                    this.messages = this.messages.filter((d) => d.id !== value);
-                },
-            }));
-
-            Alpine.data('miscellaneous', () => ({
-                columns: [{
-                        name: 'Id',
-                        hidden: true,
+                    goToTop() {
+                        document.body.scrollTop = 0;
+                        document.documentElement.scrollTop = 0;
                     },
-                    {
-                        name: 'Imagen',
-                        hidden: true,
-                    },
-                    {
-                        name: 'Clave',
-                        hidden: true,
-                    },
-                    {
-                        name: 'Nombre',
-                        hidden: true,
-                    },
-                    {
-                        name: 'Stock',
-                        hidden: true,
-                    },
-                    {
-                        name: 'Precio',
-                        hidden: true,
-                    },
-                    {
-                        name: 'Acciones',
-                        hidden: true,
-                    }
-                ],
+                }));
 
-                hideCols: [0],
-                showCols: [0, 1, 2, 3],
-                showHideColumns(col, value) {
-                    if (value) {
-                        this.showCols.push(col);
-                        this.hideCols = this.hideCols.filter((d) => d != col);
-                    } else {
-                        this.hideCols.push(col);
-                        this.showCols = this.showCols.filter((d) => d != col);
-                    }
-                    let headers = this.datatable1.columns();
-                    headers.hide(this.hideCols);
-                    headers.show(this.showCols);
-                },
-                datatable1: null,
+                // theme customization
+                Alpine.data('customizer', () => ({
+                    showCustomizer: false,
+                }));
 
-                init() {
-                    let headers = this.columns.map((col) => {
-                        return col.name;
-                    });
-                    this.datatable1 = new simpleDatatables.DataTable('#myTable1', {
-                        data: {
-                            headings: headers,
-                            data: listFormat,
-                        },
-                        perPage: 10,
-                        perPageSelect: [10, 20, 30, 50, 100],
-                        columns: [{
-                                select: 0,
-                                sort: 'asc',
-                            },
-                            {
-                                select: 1,
-                                sortable: false,
-                                render: (data) => {
-                                    return `<img src="${data}" style="width: 100px" alt="">`
+                // sidebar section
+                Alpine.data('sidebar', () => ({
+                    init() {
+                        const selector = document.querySelector('.sidebar ul a[href="' + window.location
+                            .pathname + '"]');
+                        if (selector) {
+                            selector.classList.add('active');
+                            const ul = selector.closest('ul.sub-menu');
+                            if (ul) {
+                                let ele = ul.closest('li.menu').querySelectorAll('.nav-link');
+                                if (ele) {
+                                    ele = ele[0];
+                                    setTimeout(() => {
+                                        ele.click();
+                                    });
                                 }
+                            }
+                        }
+                    },
+                }));
+
+                // header section
+                Alpine.data('header', () => ({
+                    init() {
+                        const selector = document.querySelector('ul.horizontal-menu a[href="' + window
+                            .location.pathname + '"]');
+                        if (selector) {
+                            selector.classList.add('active');
+                            const ul = selector.closest('ul.sub-menu');
+                            if (ul) {
+                                let ele = ul.closest('li.menu').querySelectorAll('.nav-link');
+                                if (ele) {
+                                    ele = ele[0];
+                                    setTimeout(() => {
+                                        ele.classList.add('active');
+                                    });
+                                }
+                            }
+                        }
+                    },
+
+                    notifications: [{
+                            id: 1,
+                            profile: 'user-profile.jpeg',
+                            message: '<strong class="text-sm mr-1">John Doe</strong>invite you to <strong>Prototyping</strong>',
+                            time: '45 min ago',
+                        },
+                        {
+                            id: 2,
+                            profile: 'profile-34.jpeg',
+                            message: '<strong class="text-sm mr-1">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
+                            time: '9h Ago',
+                        },
+                        {
+                            id: 3,
+                            profile: 'profile-16.jpeg',
+                            message: '<strong class="text-sm mr-1">Anna Morgan</strong>Upload a file',
+                            time: '9h Ago',
+                        },
+                    ],
+
+                    messages: [{
+                        id: 1,
+                        image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
+                        title: 'Congratulations!',
+                        message: 'Your OS has been updated.',
+                        time: '1hr',
+                    }, ],
+
+                    languages: [{
+                        id: 1,
+                        key: 'Chinese',
+                        value: 'zh',
+                    }, ],
+
+                    removeNotification(value) {
+                        this.notifications = this.notifications.filter((d) => d.id !== value);
+                    },
+
+                    removeMessage(value) {
+                        this.messages = this.messages.filter((d) => d.id !== value);
+                    },
+                }));
+
+                Alpine.data('miscellaneous', () => ({
+                    columns: [{
+                            name: 'Id',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Imagen',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Clave',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Nombre',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Stock',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Precio',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Acciones',
+                            hidden: true,
+                        }
+                    ],
+
+                    hideCols: [0],
+                    showCols: [0, 1, 2, 3],
+                    showHideColumns(col, value) {
+                        if (value) {
+                            this.showCols.push(col);
+                            this.hideCols = this.hideCols.filter((d) => d != col);
+                        } else {
+                            this.hideCols.push(col);
+                            this.showCols = this.showCols.filter((d) => d != col);
+                        }
+                        let headers = this.datatable1.columns();
+                        headers.hide(this.hideCols);
+                        headers.show(this.showCols);
+                    },
+                    datatable1: null,
+
+                    init() {
+                        let headers = this.columns.map((col) => {
+                            return col.name;
+                        });
+                        this.datatable1 = new simpleDatatables.DataTable('#myTable1', {
+                            data: {
+                                headings: headers,
+                                data: listFormat,
                             },
-                            {
-                                select: 6,
-                                sortable: false,
-                                render: (data) => {
-                                    return `<div class="flex items-center">
+                            perPage: 10,
+                            perPageSelect: [10, 20, 30, 50, 100],
+                            columns: [{
+                                    select: 0,
+                                    sort: 'asc',
+                                },
+                                {
+                                    select: 1,
+                                    sortable: false,
+                                    render: (data) => {
+                                        if (data != '') {
+                                            return `<img src="${data}" style="width: 100px" alt="">`
+                                        } else {
+                                            return `<img src="/assets/images/descarga.png" style="width: 100px" alt="">`
+                                        }
+
+                                    }
+                                },
+                                {
+                                    select: 4,
+                                    render: function(data, cell, row) {
+                                        if (data == '') {
+                                            return `<div class="flex items-center font-semibold">Sin stock</div>`;
+                                        } else {
+                                            return `<div class="flex items-center font-semibold">${data}</div>`;
+                                        }
+                                    },
+                                },
+                                {
+                                    select: 5,
+                                    render: function(data, cell, row) {
+                                        if (data == '$null') {
+                                            return `<div class="flex items-center font-semibold">Sin precio</div>`;
+                                        } else {
+                                            return `<div class="flex items-center font-semibold">${data}</div>`;
+                                        }
+                                    },
+                                },
+                                {
+                                    select: 6,
+                                    sortable: false,
+                                    render: (data) => {
+                                        return `<div class="flex items-center">
                                                 <button type="button" class="ltr:mr-2 rtl:ml-2" onclick="onForm(${data})">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5">
                                                         <path d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z" stroke="currentColor" stroke-width="1.5" />
@@ -242,47 +281,283 @@
                                                     </svg>
                                                 </button>
                                             </div>`
-                                },
+                                    },
+                                }
+                            ],
+                            firstLast: true,
+                            firstText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+                            lastText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+                            prevText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+                            nextText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+                            labels: {
+                                perPage: '{select}',
+                            },
+                            layout: {
+                                top: '{search}',
+                                bottom: '{info}{select}{pager}',
+                            },
+                        });
+                        let cols = this.datatable1.columns();
+                        cols.hide(this.hideCols);
+                        cols.show(this.showCols);
+                    },
+                    formatDate(date) {
+                        if (date) {
+                            const dt = new Date(date);
+                            const month = dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt
+                                .getMonth() + 1;
+                            const day = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
+                            return day + '/' + month + '/' + dt.getFullYear();
+                        }
+                        return '';
+                    },
+                }));
+            });
+
+            function onForm(id) {
+                const row = list.find(f => f.id == id)
+                window.location.href = "medicamentos/edit/" + row.id
+            }
+
+            function onDelete(id) {
+                const row = list.find(f => f.id == id)
+                window.location.href = "medicamentos/delete/" + row.id
+            }
+        } else {
+            var listFormat = list.map(i => [i.id, i.image, i.clave, i.descripcion, i.stock, '$' + i.pecio]);
+            document.addEventListener('alpine:init', () => {
+                // main section
+                Alpine.data('scrollToTop', () => ({
+                    showTopButton: false,
+                    init() {
+                        window.onscroll = () => {
+                            this.scrollFunction();
+                        };
+                    },
+
+                    scrollFunction() {
+                        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                            this.showTopButton = true;
+                        } else {
+                            this.showTopButton = false;
+                        }
+                    },
+
+                    goToTop() {
+                        document.body.scrollTop = 0;
+                        document.documentElement.scrollTop = 0;
+                    },
+                }));
+
+                // theme customization
+                Alpine.data('customizer', () => ({
+                    showCustomizer: false,
+                }));
+
+                // sidebar section
+                Alpine.data('sidebar', () => ({
+                    init() {
+                        const selector = document.querySelector('.sidebar ul a[href="' + window.location
+                            .pathname + '"]');
+                        if (selector) {
+                            selector.classList.add('active');
+                            const ul = selector.closest('ul.sub-menu');
+                            if (ul) {
+                                let ele = ul.closest('li.menu').querySelectorAll('.nav-link');
+                                if (ele) {
+                                    ele = ele[0];
+                                    setTimeout(() => {
+                                        ele.click();
+                                    });
+                                }
                             }
-                        ],
-                        firstLast: true,
-                        firstText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                        lastText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                        prevText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                        nextText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                        labels: {
-                            perPage: '{select}',
-                        },
-                        layout: {
-                            top: '{search}',
-                            bottom: '{info}{select}{pager}',
-                        },
-                    });
-                    let cols = this.datatable1.columns();
-                    cols.hide(this.hideCols);
-                    cols.show(this.showCols);
-                },
-                formatDate(date) {
-                    if (date) {
-                        const dt = new Date(date);
-                        const month = dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt
-                            .getMonth() + 1;
-                        const day = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
-                        return day + '/' + month + '/' + dt.getFullYear();
-                    }
-                    return '';
-                },
-            }));
-        });
+                        }
+                    },
+                }));
 
-        function onForm(id) {
-            const row = list.find(f => f.id == id)
-            window.location.href = "medicamentos/edit/" + row.id
-        }
+                // header section
+                Alpine.data('header', () => ({
+                    init() {
+                        const selector = document.querySelector('ul.horizontal-menu a[href="' + window
+                            .location.pathname + '"]');
+                        if (selector) {
+                            selector.classList.add('active');
+                            const ul = selector.closest('ul.sub-menu');
+                            if (ul) {
+                                let ele = ul.closest('li.menu').querySelectorAll('.nav-link');
+                                if (ele) {
+                                    ele = ele[0];
+                                    setTimeout(() => {
+                                        ele.classList.add('active');
+                                    });
+                                }
+                            }
+                        }
+                    },
 
-        function onDelete(id) {
-            const row = list.find(f => f.id == id)
-            window.location.href = "medicamentos/delete/" + row.id
+                    notifications: [{
+                            id: 1,
+                            profile: 'user-profile.jpeg',
+                            message: '<strong class="text-sm mr-1">John Doe</strong>invite you to <strong>Prototyping</strong>',
+                            time: '45 min ago',
+                        },
+                        {
+                            id: 2,
+                            profile: 'profile-34.jpeg',
+                            message: '<strong class="text-sm mr-1">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
+                            time: '9h Ago',
+                        },
+                        {
+                            id: 3,
+                            profile: 'profile-16.jpeg',
+                            message: '<strong class="text-sm mr-1">Anna Morgan</strong>Upload a file',
+                            time: '9h Ago',
+                        },
+                    ],
+
+                    messages: [{
+                        id: 1,
+                        image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
+                        title: 'Congratulations!',
+                        message: 'Your OS has been updated.',
+                        time: '1hr',
+                    }, ],
+
+                    languages: [{
+                        id: 1,
+                        key: 'Chinese',
+                        value: 'zh',
+                    }, ],
+
+                    removeNotification(value) {
+                        this.notifications = this.notifications.filter((d) => d.id !== value);
+                    },
+
+                    removeMessage(value) {
+                        this.messages = this.messages.filter((d) => d.id !== value);
+                    },
+                }));
+
+                Alpine.data('miscellaneous', () => ({
+                    columns: [{
+                            name: 'Id',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Imagen',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Clave',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Nombre',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Stock',
+                            hidden: true,
+                        },
+                        {
+                            name: 'Precio',
+                            hidden: true,
+                        }
+                    ],
+
+                    hideCols: [0],
+                    showCols: [0, 1, 2, 3],
+                    showHideColumns(col, value) {
+                        if (value) {
+                            this.showCols.push(col);
+                            this.hideCols = this.hideCols.filter((d) => d != col);
+                        } else {
+                            this.hideCols.push(col);
+                            this.showCols = this.showCols.filter((d) => d != col);
+                        }
+                        let headers = this.datatable1.columns();
+                        headers.hide(this.hideCols);
+                        headers.show(this.showCols);
+                    },
+                    datatable1: null,
+
+                    init() {
+                        let headers = this.columns.map((col) => {
+                            return col.name;
+                        });
+                        this.datatable1 = new simpleDatatables.DataTable('#myTable1', {
+                            data: {
+                                headings: headers,
+                                data: listFormat,
+                            },
+                            perPage: 10,
+                            perPageSelect: [10, 20, 30, 50, 100],
+                            columns: [{
+                                    select: 0,
+                                    sort: 'asc',
+                                },
+                                {
+                                    select: 1,
+                                    sortable: false,
+                                    render: (data) => {
+                                        if (data != '') {
+                                            return `<img src="${data}" style="width: 100px" alt="">`
+                                        } else {
+                                            return `<img src="/assets/images/descarga.png" style="width: 100px" alt="">`
+                                        }
+
+                                    }
+                                },
+                                {
+                                    select: 4,
+                                    render: function(data, cell, row) {
+                                        if (data == '') {
+                                            return `<div class="flex items-center font-semibold">Sin stock</div>`;
+                                        } else {
+                                            return `<div class="flex items-center font-semibold">${data}</div>`;
+                                        }
+                                    },
+                                },
+                                {
+                                    select: 5,
+                                    render: function(data, cell, row) {
+                                        if (data == '$null') {
+                                            return `<div class="flex items-center font-semibold">Sin precio</div>`;
+                                        } else {
+                                            return `<div class="flex items-center font-semibold">${data}</div>`;
+                                        }
+                                    },
+                                },
+                            ],
+                            firstLast: true,
+                            firstText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+                            lastText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+                            prevText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+                            nextText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
+                            labels: {
+                                perPage: '{select}',
+                            },
+                            layout: {
+                                top: '{search}',
+                                bottom: '{info}{select}{pager}',
+                            },
+                        });
+                        let cols = this.datatable1.columns();
+                        cols.hide(this.hideCols);
+                        cols.show(this.showCols);
+                    },
+                    formatDate(date) {
+                        if (date) {
+                            const dt = new Date(date);
+                            const month = dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt
+                                .getMonth() + 1;
+                            const day = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
+                            return day + '/' + month + '/' + dt.getFullYear();
+                        }
+                        return '';
+                    },
+                }));
+            });
         }
     </script>
 @endsection

@@ -4,6 +4,7 @@ use App\Http\Controllers\AcopioController;
 use App\Http\Controllers\AddressSendController;
 use App\Http\Controllers\ArchivosController;
 use App\Http\Controllers\FacturationController;
+use App\Http\Controllers\ImportarMedicamentosController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MedicinesController;
 use App\Http\Controllers\MedicinesPatientController;
@@ -87,6 +88,12 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/edit/{medicine}',                      [MedicinesController::class, 'edit'])->name('medicine.edit');
         Route::put('/update/{medicine}',                    [MedicinesController::class, 'update'])->name('medicine.update');
         Route::get('/delete/{medicine}',                    [MedicinesController::class, 'destroy'])->name('medicine.destroy');
+
+        // Importador
+        Route::prefix('importador')->group(function () {
+            Route::get('/',                                 [ImportarMedicamentosController::class, 'index'])->name('medicamentos.import');
+            Route::post('/store',                           [ImportarMedicamentosController::class, 'store'])->name('medicamentos.importStore');
+        });
     });
     // PACIENTES
     Route::prefix('pacientes')->group(function () {
@@ -98,7 +105,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/delete/{patient}',                     [PatientController::class, 'destroy'])->name('patient.destroy');
         Route::get('/perfil/{patient}',                     [PatientController::class, 'profile'])->name('patient.profile');
 
-        // Dirección
+        // Medicamentos
         Route::prefix('medicamentos')->group(function () {
             Route::get('/create/{patient}',                 [MedicinesPatientController::class, 'create'])->name('medicine_patiente.create');
             Route::post('/store',                           [MedicinesPatientController::class, 'store'])->name('medicine_patiente.store');
@@ -142,6 +149,6 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('/store',                               [InventoryController::class, 'store'])->name('inventory.store');
         Route::get('/edit/{inventory}',                     [InventoryController::class, 'edit'])->name('inventory.edit');
         Route::put('/update/{inventory}',                   [InventoryController::class, 'update'])->name('inventory.update');
-        Route::delete('/delete/{inventory}',                [InventoryController::class, 'destroy'])->name('inventory.destroy');
+        Route::get('/delete/{inventory}',                [InventoryController::class, 'destroy'])->name('inventory.destroy');
     });
 });

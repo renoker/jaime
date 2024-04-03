@@ -50,8 +50,8 @@ class MedicinesPatientController extends Controller
     {
         $user = Auth::guard('web')->user();
         $acopio = Acopio::where('user_id', $user->id)->first();
-        $inventario = Inventory::where('acopio_id', $acopio->id)->get();
-        $medicinas = MedicineStockAcopio::where('patient_id', $patient->id)->get();
+        $inventario = Inventory::where('acopio_id', $acopio->id)->where('stock', '>', 0)->get();
+        $medicinas = MedicineStockAcopio::where('patient_id', $patient->id)->where('stock', '>', 0)->get();
         return view("pages.{$this->folder}.create", [
             'patient'   => $patient,
             'view'      => $this->view,
@@ -70,7 +70,7 @@ class MedicinesPatientController extends Controller
 
         if (!empty($request->inventorie_id)) {
             $inventario = Inventory::where('id', $request->inventorie_id)->first();
-            if ($inventario->stock <= $request->no_cajas) {
+            if ($request->no_cajas <= $inventario->stock) {
 
                 $row = new MedicinesPatient();
 
@@ -79,8 +79,10 @@ class MedicinesPatientController extends Controller
                 $row->no_cajas = $request->no_cajas;
                 $row->dosis = $request->dosis;
                 $row->periodicidad = $request->periodicidad;
-
                 $row->save();
+
+                $inventario->stock = $inventario->stock - $request->no_cajas;
+                $inventario->save();
 
                 return redirect()->route($this->index, $request->patient_id)->with('statusAlta', '¡Fila creada de manera exitosa!');
             }
@@ -88,7 +90,7 @@ class MedicinesPatientController extends Controller
 
         if (!empty($request->medicine_id)) {
             $inventario = MedicineStockAcopio::where('medicine_id', $request->medicine_id)->first();
-            if ($inventario->stock <= $request->no_cajas) {
+            if ($request->no_cajas <= $inventario->stock) {
 
                 $row = new MedicinesPatient();
 
@@ -99,6 +101,9 @@ class MedicinesPatientController extends Controller
                 $row->periodicidad = $request->periodicidad;
 
                 $row->save();
+
+                $inventario->stock = $inventario->stock - $request->no_cajas;
+                $inventario->save();
 
                 return redirect()->route($this->index, $request->patient_id)->with('statusAlta', '¡Fila creada de manera exitosa!');
             }
