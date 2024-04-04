@@ -70,15 +70,9 @@
                             <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa el Teléfono</span>
                         </div>
                         <div>
-                            <select class="form-select text-white-dark" name="acopio_id">
-                                <option value="0">Selecciona el nivel de acceso del este usuario</option>
-                                @foreach ($acopios as $item)
-                                    <option value="{{ $item->id }}" @if ($item->id == $row->acopio_id) selected @endif>
-                                        {{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Selecciona el nivel de acceso del
-                                este usuario</span>
+                            <input type="hidden" name="acopio_id" value="{{ $row->acopio_id }}">
+                            <input type="text" value="{{ $row->acopio->name }}" readonly class="form-input" />
+                            <span class="mt-1 inline-block text-[11px] text-white-dark">Acopio actual</span>
                         </div>
                         <button type="submit" class="btn btn-primary !mt-6">Actualizar</button>
                     </form>

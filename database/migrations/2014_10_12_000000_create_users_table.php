@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('phone');
             $table->foreign('level_id')->references('id')->on('levels');
             $table->unsignedBigInteger('level_id')->nullable();
+            $table->foreign('acopio_id')->references('id')->on('acopios');
+            $table->unsignedBigInteger('acopio_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

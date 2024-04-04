@@ -37,10 +37,6 @@ class AcopioController extends Controller
         $user = Auth::guard('web')->user();
         if ($user->level_id == 1) {
             $order = Acopio::all();
-        } elseif ($user->level_id == 2) {
-            $order = Acopio::where('user_id', $user->id)->get();
-        } else {
-            $order = [];
         }
         return view("pages.{$this->folder}.index", [
             'list'  => $order,
@@ -70,7 +66,6 @@ class AcopioController extends Controller
     {
         $row = new Acopio();
 
-        $row->user_id = $request->user_id;
         $row->compania = $request->compania;
         $row->name = $request->name;
         $row->phone = $request->phone;
@@ -111,7 +106,6 @@ class AcopioController extends Controller
     public function update(UpdateAcopioRequest $request, Acopio $acopio)
     {
 
-        $acopio->user_id = $request->user_id;
         $acopio->compania = $request->compania;
         $acopio->name = $request->name;
         $acopio->phone = $request->phone;

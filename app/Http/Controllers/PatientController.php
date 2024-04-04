@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePatientRequest;
 use App\Models\Acopio;
 use App\Models\MedicinesPatient;
 use App\Models\Patient;
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -33,7 +34,9 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $pacientes = Patient::with('acopio')->get();
+        $user = Auth::guard('web')->user();
+
+        $pacientes = Patient::with('acopio')->where('acopio_id', $user->acopio_id)->get();
         return view("pages.{$this->folder}.index", [
             'list'  => $pacientes,
             'view'  => $this->view,
@@ -46,12 +49,12 @@ class PatientController extends Controller
      */
     public function create()
     {
-        $acopio = Acopio::all();
+        $user = Auth::guard('web')->user();
         return view("pages.{$this->folder}.create", [
             'view'                  => $this->view,
             'index'                 => $this->index,
             'store'                 => $this->store,
-            'acopios'      => $acopio,
+            'user'                => $user,
         ]);
     }
 
@@ -102,12 +105,10 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        $acopios = Acopio::all();
         return view("pages.{$this->folder}.edit", [
             'view'              => $this->view,
             'index'             => $this->index,
             'update'            => $this->update,
-            'acopios'           => $acopios,
             'row'               => $patient,
         ]);
     }

@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'genre'         => "Hombre",
             'phone'         => "5586789485",
             'level_id'      => 1,
+            'acopio_id'     => null
         ]);
 
         User::create([
@@ -31,6 +32,18 @@ class UserSeeder extends Seeder
             'genre'         => "Hombre",
             'phone'         => "5586789485",
             'level_id'      => 2,
+            'acopio_id'     => 1
+        ]);
+
+        User::create([
+            'name'          => "Manuel",
+            'email'         => "manuel@tquis.com",
+            'password'      => bcrypt("admin"),
+            'age'           => "34",
+            'genre'         => "Hombre",
+            'phone'         => "5586789485",
+            'level_id'      => 2,
+            'acopio_id'     => 2
         ]);
     }
 }

@@ -42,8 +42,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Order::with('acopio', 'status_orden')->get();
         $user = Auth::guard('web')->user();
+        if ($user->level_id == 1) {
+            $order = Order::with('acopio', 'status_orden')->get();
+        } else {
+            $order = Order::with('acopio', 'status_orden')->where('acopio_id', $user->acopio_id)->get();
+        }
+
 
         return view("pages.{$this->folder}.index", [
             'list'      => $order,
@@ -60,7 +65,7 @@ class OrderController extends Controller
     {
         $user = Auth::guard('web')->user();
         $medicinas = Medicines::all();
-        $acopio = Acopio::where('user_id', $user->id)->first();
+        $acopio = Acopio::where('id', $user->acopio_id)->first();
         $order = Order::where('acopio_id', $user->id)->get();
         $pacientes = Patient::where('acopio_id', $acopio->id)->get();
         $facturacion = Facturation::where('acopio_id', $acopio->id)->first();
@@ -162,7 +167,7 @@ class OrderController extends Controller
     {
         $user = Auth::guard('web')->user();
         $medicinas = Medicines::where('stock', '>', 0)->get();
-        $acopio = Acopio::where('user_id', $user->id)->first();
+        $acopio = Acopio::where('id', $user->acopio_id)->first();
         $pacientes = Patient::where('acopio_id', $acopio->id)->get();
         $facturacion = Facturation::where('acopio_id', $acopio->id)->first();
         $direccion_envio = AddressSend::where('acopio_id', $acopio->id)->first();

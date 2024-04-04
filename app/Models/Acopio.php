@@ -10,11 +10,6 @@ class Acopio extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function facturation()
     {
         return $this->hasOne(Facturation::class);

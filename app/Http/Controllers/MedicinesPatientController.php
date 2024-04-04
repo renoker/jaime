@@ -49,7 +49,7 @@ class MedicinesPatientController extends Controller
     public function create(Patient $patient)
     {
         $user = Auth::guard('web')->user();
-        $acopio = Acopio::where('user_id', $user->id)->first();
+        $acopio = Acopio::where('id', $user->acopio_id)->first();
         $inventario = Inventory::where('acopio_id', $acopio->id)->where('stock', '>', 0)->get();
         $medicinas = MedicineStockAcopio::where('patient_id', $patient->id)->where('stock', '>', 0)->get();
         return view("pages.{$this->folder}.create", [
@@ -159,7 +159,7 @@ class MedicinesPatientController extends Controller
     public function suspendeMedicamento(Request $request)
     {
         $user = Auth::guard('web')->user();
-        $acopio = Acopio::where('user_id', $user->id)->first();
+        $acopio = Acopio::where('id', $user->acopio_id)->first();
         $medicinesPatient = MedicinesPatient::where('id', $request->id)->first();
         // obtenemos la información del medicamento 
         $medicamento = Medicines::where('id', $medicinesPatient->medicine_id)->first();

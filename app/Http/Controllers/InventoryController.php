@@ -34,7 +34,7 @@ class InventoryController extends Controller
     public function index()
     {
         $user = Auth::guard('web')->user();
-        $acopio = Acopio::where('user_id', $user->id)->first();
+        $acopio = Acopio::where('id', $user->acopio_id)->first();
         $inventory = Inventory::where('acopio_id', $acopio->id)->get();
         return view("pages.{$this->folder}.index", [
             'list'      => $inventory,
@@ -49,7 +49,7 @@ class InventoryController extends Controller
     public function create()
     {
         $user = Auth::guard('web')->user();
-        $acopio = Acopio::where('user_id', $user->id)->first();
+        $acopio = Acopio::where('id', $user->acopio_id)->first();
         return view("pages.{$this->folder}.create", [
             'view'                  => $this->view,
             'index'     => $this->index,
