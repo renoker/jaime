@@ -32,6 +32,7 @@ Route::get('/perfil', function () {
 
 Route::get('/',         [UserController::class, 'login'])->name('user.login');
 Route::post('/login',   [UserController::class, 'login_request'])->name('user.login_request');
+Route::get('/home',     [UserController::class, 'home'])->name('user.home');
 
 // Pantallas para usuarios con registro
 Route::group(['middleware' => 'auth:web'], function () {
@@ -44,6 +45,14 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/edit/{user}',                          [UserController::class, 'edit'])->name('user.edit');
         Route::put('/update/{user}',                        [UserController::class, 'update'])->name('user.update');
         Route::get('/delete/{user}',                        [UserController::class, 'destroy'])->name('user.destroy');
+    });
+    Route::prefix('usuarios_casa')->group(function () {
+        Route::get('/',                                     [UserController::class, 'userEditorIndex'])->name('user_edit.index');
+        Route::get('/create',                               [UserController::class, 'userEditorCreate'])->name('user_edit.create');
+        Route::post('/store',                               [UserController::class, 'userEditorStore'])->name('user_edit.store');
+        Route::get('/edit/{user}',                          [UserController::class, 'userEditorEdit'])->name('user_edit.edit');
+        Route::put('/update/{user}',                        [UserController::class, 'userEditorUpdate'])->name('user_edit.update');
+        Route::get('/delete/{user}',                        [UserController::class, 'userEditorDestroy'])->name('user_edit.destroy');
     });
     // CENTRO DE ACOPIO
     Route::prefix('acopio')->group(function () {

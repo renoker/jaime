@@ -3,7 +3,7 @@
     <div class="shadow-sm">
         <div class="relative flex w-full items-center bg-white px-5 py-2.5 dark:bg-[#0e1726]">
             <div class="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
-                <a href="index.html" class="main-logo flex shrink-0 items-center">
+                <a href="{{ route('user.home') }}" class="main-logo flex shrink-0 items-center">
                     <img class="ml-[5px] flex-none" style="width: 140px" src="{{ url('assets/icons/logo.png') }}"
                         alt="image" />
                 </a>

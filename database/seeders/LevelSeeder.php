@@ -20,5 +20,9 @@ class LevelSeeder extends Seeder
         Level::create([
             'level' => "Director de Acopio",
         ]);
+
+        Level::create([
+            'level' => "Editor",
+        ]);
     }
 }
