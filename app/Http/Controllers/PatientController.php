@@ -80,7 +80,6 @@ class PatientController extends Controller
         }
         $row->name = $request->name;
         $row->edad = $request->edad;
-        $row->edad = $request->edad;
         $row->direccion = $request->direccion;
         $row->cumpleanios = $request->cumpleanios;
         $row->email = $request->email;
