@@ -28,7 +28,7 @@
                         </div>
                         <div>
                             <input type="text" placeholder="Nombre" name="name" class="form-input" />
-                            <span class="mt-1 inline-block text-[11px] text-white-dark">Ingresa el nombre</span>
+                            <span class="mt-1 inline-block text-[11px] text-white-dark">RFC</span>
                         </div>
                         <div>
                             <input type="number" placeholder="Teléfono" name="phone" class="form-input" />
