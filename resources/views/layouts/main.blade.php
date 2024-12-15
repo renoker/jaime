@@ -18,7 +18,7 @@
     <script src="{{ url('assets/js/perfect-scrollbar.min.js') }}"></script>
     <script defer src="{{ url('assets/js/popper.min.js') }}"></script>
     <script defer src="{{ url('assets/js/tippy-bundle.umd.min.js') }}"></script>
-    <script defer src="{{ url('assets/js/sweetalert.min.js') }}"></script>
+    @vite(['resources/js/app.js'])
     @yield('style')
 </head>
 
@@ -38,6 +38,24 @@
             });
         </script>
     @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if ($errors->any())
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Errores de validación!',
+                    html: `
+                        <ul style="text-align: left; list-style-type: none; padding: 0;">
+                            @foreach ($errors->all() as $error)
+                                <li>• {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    `,
+                });
+            @endif
+        });
+    </script>
 
     <!-- sidebar menu overlay -->
     <div x-cloak class="fixed inset-0 z-50 bg-[black]/60 lg:hidden" :class="{ 'hidden': !$store.app.sidebar }"
@@ -99,7 +117,6 @@
     <script defer src="{{ url('assets/js/alpine.min.js') }}"></script>
     <script src="{{ url('assets/js/custom.js') }}"></script>
     <script src="{{ url('assets/js/quill.js') }}"></script>
-
     @yield('scripts')
 </body>
 

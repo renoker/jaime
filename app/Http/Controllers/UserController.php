@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Acopio;
 use App\Models\Level;
 use App\Models\OrdenMedina;
@@ -106,7 +107,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         $row = new User;
 
@@ -209,8 +210,11 @@ class UserController extends Controller
     public function userEditorIndex()
     {
         $user = Auth::guard('web')->user();
-        $users = User::with('level')->where('acopio_id', $user->acopio_id)->get();
-
+        $users = User::with('level')
+            ->where('acopio_id', $user->acopio_id)
+            ->whereNotNull('acopio_id')
+            ->get();
+        // dd($users);
         return view("pages.usuario_editor.index", [
             'list'      => $users,
             'view'      => $this->view,

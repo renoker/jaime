@@ -72,7 +72,14 @@ class AcopioController extends Controller
         $row->address = $request->address;
         $row->address_two = $request->address_two;
 
+        // Guardar el nuevo acopio
         $row->save();
+
+        $user = User::find($request->user_id);
+        if ($user) {
+            $user->acopio_id = $row->id;
+            $user->save();
+        }
 
         return redirect()->route($this->index)->with('statusAlta', '¡Fila creada de manera exitosa!');
     }
@@ -105,14 +112,24 @@ class AcopioController extends Controller
      */
     public function update(UpdateAcopioRequest $request, Acopio $acopio)
     {
-
+        // Actualizar los datos del acopio
         $acopio->compania = $request->compania;
         $acopio->name = $request->name;
         $acopio->phone = $request->phone;
         $acopio->address = $request->address;
         $acopio->address_two = $request->address_two;
 
+        // Guardar los cambios en el acopio
         $acopio->save();
+
+        // Actualizar el acopio_id en un usuario específico
+        if ($request->has('user_id')) {
+            $user = User::find($request->user_id);
+            if ($user) {
+                $user->acopio_id = $acopio->id;
+                $user->save();
+            }
+        }
 
         return redirect()->route($this->index)->with('statusAlta', '¡Fila actualizada de manera exitosa!');
     }
