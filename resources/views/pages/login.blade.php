@@ -62,7 +62,7 @@
         <!-- start main content section -->
         <div class="flex min-h-screen">
             <div
-                class="hidden min-h-screen w-1/2 flex-col items-center justify-center bg-gradient-to-t from-[#ff1361bf] to-[#FFF] p-4 text-white dark:text-black lg:flex">
+                class="hidden min-h-screen w-1/2 flex-col items-center justify-center bg-gradient-to-t from-[#696969bf] to-[#FFF] p-4 text-white dark:text-black lg:flex">
                 <div class="mx-auto mb-5 w-full">
                     <img src="{{ url('assets/icons/logo_2.png') }}" alt="coming_soon"
                         class="mx-auto lg:max-w-[370px] xl:max-w-[500px]" />
