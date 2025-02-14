@@ -89,7 +89,7 @@
                             @foreach ($medicinas as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->medicine->descripcion }}</td>
+                                    <td>{{ $item->medicine->descripcion ?? 'S/D' }}</td>
                                     <td class="ltr:text-right rtl:text-left">{{ $item->cantidad }}</td>
                                     <td class="ltr:text-right rtl:text-left">
                                         <div class="flex gap-4 items-center" style="justify-content: flex-end">
