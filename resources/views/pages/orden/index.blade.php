@@ -36,10 +36,39 @@
         var list = @json($list);
         var user = @json($user);
         console.log(list);
-        var listFormat = list.map(i => [i.id, i.acopio.name, i.fecha_sistema, i.total, i.status_orden.status, i.id]);
+        var listFormat = list.map(i => [
+            i?.id ?? 'N/A',
+            i?.acopio?.name ?? 'SIN ACOPIO',
+            i?.fecha_sistema ?? 'SIN FECHA',
+            i?.total ?? 0,
+            i?.status_orden?.status ?? 'SIN ESTATUS',
+            i?.id ?? 'N/A'
+        ]);
 
 
         document.addEventListener('alpine:init', () => {
+            // main section
+            Alpine.data('scrollToTop', () => ({
+                showTopButton: false,
+                init() {
+                    window.onscroll = () => {
+                        this.scrollFunction();
+                    };
+                },
+
+                scrollFunction() {
+                    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                        this.showTopButton = true;
+                    } else {
+                        this.showTopButton = false;
+                    }
+                },
+
+                goToTop() {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                },
+            }));
 
             // theme customization
             Alpine.data('customizer', () => ({
