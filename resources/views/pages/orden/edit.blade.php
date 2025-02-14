@@ -533,7 +533,7 @@
                 },
 
                 removeItem(item) {
-                    swal.fire({
+                    Swal.fire({
                         title: '¿Quieres eliminar esta fila?',
                         text: 'Las filas eliminadas ya no se podrán recuperar',
                         icon: 'warning',
@@ -570,7 +570,7 @@
                 },
 
                 saveItems() {
-                    swal.fire({
+                    Swal.fire({
                         title: '¿Quieres continuar agregando medicamentos o solo guardar y salir?',
                         text: '',
                         icon: 'warning',

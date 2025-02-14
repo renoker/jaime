@@ -2,6 +2,7 @@
 @section('titulo', 'Comunidad religiosa - Agregar')
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ url('assets/css/file-upload-with-preview.min.css') }}" />
+    @vite(['resources/js/swal.js'])
 @endsection
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -217,31 +218,6 @@
                                     stroke-linecap="round" />
                             </svg>
                             Guardar
-                        </button>
-
-                        <a href="apps-invoice-preview.html" class="btn btn-primary w-full gap-2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 ltr:mr-2 rtl:ml-2">
-                                <path opacity="0.5"
-                                    d="M3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C4.97196 6.49956 7.81811 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957Z"
-                                    stroke="currentColor" stroke-width="1.5"></path>
-                                <path
-                                    d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
-                                    stroke="currentColor" stroke-width="1.5"></path>
-                            </svg>
-                            Preview
-                        </a>
-
-                        <button type="button" class="btn btn-secondary w-full gap-2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 ltr:mr-2 rtl:ml-2">
-                                <path opacity="0.5"
-                                    d="M17 9.00195C19.175 9.01406 20.3529 9.11051 21.1213 9.8789C22 10.7576 22 12.1718 22 15.0002V16.0002C22 18.8286 22 20.2429 21.1213 21.1215C20.2426 22.0002 18.8284 22.0002 16 22.0002H8C5.17157 22.0002 3.75736 22.0002 2.87868 21.1215C2 20.2429 2 18.8286 2 16.0002L2 15.0002C2 12.1718 2 10.7576 2.87868 9.87889C3.64706 9.11051 4.82497 9.01406 7 9.00195"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-                                <path d="M12 2L12 15M12 15L9 11.5M12 15L15 11.5" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                            Download
                         </button>
                     </div>
                 </div>
@@ -521,7 +497,7 @@
                 },
 
                 removeItem(item) {
-                    swal.fire({
+                    Swal.fire({
                         title: '¿Quieres eliminar esta fila?',
                         text: 'Las filas eliminadas ya no se podrán recuperar',
                         icon: 'warning',
@@ -558,7 +534,7 @@
                 },
 
                 saveItems() {
-                    swal.fire({
+                    Swal.fire({
                         title: '¿Quieres continuar agregando medicamentos o solo guardar y salir?',
                         text: '',
                         icon: 'warning',
@@ -625,7 +601,6 @@
                                 .catch(error => console.log('error', error));
                         }
                     })
-
                 },
             }));
         });
