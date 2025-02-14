@@ -49,6 +49,7 @@ class OrderController extends Controller
             $order = Order::with('acopio', 'status_orden')->where('acopio_id', $user->acopio_id)->get();
         }
 
+        dd($order);
 
         return view("pages.{$this->folder}.index", [
             'list'      => $order,
@@ -190,9 +191,7 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrderRequest $request, Order $order)
-    {
-    }
+    public function update(UpdateOrderRequest $request, Order $order) {}
 
     /**
      * Remove the specified resource from storage.
