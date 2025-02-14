@@ -54,23 +54,23 @@
                         <div class="xl:1/3 sm:w-1/2 lg:w-2/6">
                             <div class="mb-2 flex w-full items-center justify-between">
                                 <div class="text-white-dark">Compañia:</div>
-                                <div class="whitespace-nowrap">{{ $order->acopio->facturation->compania }}</div>
+                                <div class="whitespace-nowrap">{{ $order->acopio->facturation->compania ?? 'S/C' }}</div>
                             </div>
                             <div class="mb-2 flex w-full items-center justify-between">
                                 <div class="text-white-dark">Nombre:</div>
-                                <div>{{ $order->acopio->facturation->name }}</div>
+                                <div>{{ $order->acopio->facturation->name ?? 'S/N' }}</div>
                             </div>
                             <div class="mb-2 flex w-full items-center justify-between">
                                 <div class="text-white-dark">Teléfono:</div>
-                                <div>{{ $order->acopio->facturation->phone }}</div>
+                                <div>{{ $order->acopio->facturation->phone ?? 'S/N' }}</div>
                             </div>
                             <div class="mb-2 flex w-full items-center justify-between">
                                 <div class="text-white-dark">Dirección 1:</div>
-                                <div>{{ $order->acopio->facturation->address }}</div>
+                                <div>{{ $order->acopio->facturation->address ?? 'S/N' }}</div>
                             </div>
                             <div class="mb-2 flex w-full items-center justify-between">
                                 <div class="text-white-dark">Dirección 2:</div>
-                                <div>{{ $order->acopio->facturation->address_two }}</div>
+                                <div>{{ $order->acopio->facturation->address_two ?? 'S/N' }}</div>
                             </div>
                         </div>
                     </div>
@@ -481,7 +481,7 @@
 
         function cambioStatus(status) {
 
-            swal.fire({
+            Swal.fire({
                 title: '¿Quieres enviar la orden?',
                 text: '¡Notificaremos a la comunidad religiosa del cambió de estatus!',
                 icon: 'warning',
