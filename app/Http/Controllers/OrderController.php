@@ -49,8 +49,6 @@ class OrderController extends Controller
             $order = Order::with('acopio', 'status_orden')->where('acopio_id', $user->acopio_id)->get();
         }
 
-        dd($order);
-
         return view("pages.{$this->folder}.index", [
             'list'      => $order,
             'view'      => $this->view,

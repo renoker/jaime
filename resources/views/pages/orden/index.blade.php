@@ -35,7 +35,7 @@
     <script>
         var list = @json($list);
         var user = @json($user);
-        // console.log(list);
+        console.log(list);
         var listFormat = list.map(i => [i.id, i.acopio.name, i.fecha_sistema, i.total, i.status_orden.status, i.id]);
 
 
