@@ -2,7 +2,6 @@
 @section('titulo', 'Comunidad religiosa - Agregar')
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ url('assets/css/file-upload-with-preview.min.css') }}" />
-    @vite(['resources/js/swal.js'])
 @endsection
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
